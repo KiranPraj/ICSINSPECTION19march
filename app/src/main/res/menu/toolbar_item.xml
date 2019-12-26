@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item android:id="@+id/tb_home"
+        android:title="@string/home"
+        android:icon="@drawable/ic_home" />
+    <item android:id="@+id/tb_synhandle"
+        android:title="@string/sync"
+        android:icon="@drawable/ic_upload"/>
+    <item android:id="@+id/tb_donesync"
+        android:title="@string/donesync"
+        android:icon="@drawable/ic_done"/>
+    <item android:id="@+id/tb_newplan"
+        android:title="@string/refresh_plan"
+        android:icon="@drawable/ic_sync_" />
+    <item android:id="@+id/tb_logout"
+        android:title="@string/logout"
+        android:icon="@drawable/ic_logout" />
+
+</menu>

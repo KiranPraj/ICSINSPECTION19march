@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#222e3f</color>
+    <color name="colorAccent">#4092ff</color>
+    <color name="maroonColor">#31435b</color>
+    <color name="color_checked">#31435b</color>
+    <color name="color_unchecked_stroke">#31435b</color>
+    <color name="color_tick">#31435b</color>
+    <color name="spots_dialog_color">#89df6c</color>
+    <color name="bg_gray">#ccd4c9</color>
+    <color name="color_hint">#f173aaf2</color>
+    <color name="color_orange">#d67601</color>
+    <color name="red">#FF0000</color>
+
+    <array  name="tab_colors" >
+        <item name="tab_1">#f173aaf</item>
+        <item name="tab_2">#f173aaf</item>
+        <item name="tab_3">#f173aaf</item>
+        <item name="tab_4">#f173aaf</item>
+    </array>
+</resources>

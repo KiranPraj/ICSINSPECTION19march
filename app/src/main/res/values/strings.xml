@@ -1,0 +1,236 @@
+<resources>
+    <string name="app_name">ICS IR_IRN</string>
+    <string name="ics_inspection_report">ICS INSPECTION REPORT</string>
+    <string name="costumer_name">costumer name</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="frag_insp">Frag_inspection</string>
+    <string name="findings_observations">FINDINGS / OBSERVATIONS</string>
+    <string name="frag_finding">Frag_Finding</string>
+    <string name="big_text_1">The undersigned Surveyor working under general T &amp; C of ICS,
+        did visit at <b>Saurashtra Engineering Corp. Pvt. Ltd.</b> for inspection of the above.</string>
+    <string name="img">img</string>
+    <string name="fill_all_details">Observations are Mandatory</string>
+    <string name="submit">Submit</string>
+    <string name="upload_photo">PHOTO</string>
+    <string name="user">USER_DB</string>
+    <string name="frag_view_report">Frag_view</string>
+    <string name="stage">Stage</string>
+    <string name="finals">Final</string>
+    <string name="frag_sync">Frag_Sync</string>
+    <string name="no_internet_connection">No internet connection</string>
+    <string name="image">img</string>
+    <string name="get_data">getting refresh data…</string>
+    <string name="desc_data">inspection_data</string>
+    <string name="desc_model">inspection_model</string>
+    <string name="nor">no of rows</string>
+    <string name="ics_reg_num">ics_reg_num</string>
+    <string name="station">station</string>
+    <string name="emp_station">emp_station</string>
+    <string name="report_no">report_no</string>
+    <string name="cgs">CGD/Cross country pipeline</string>
+    <string name="vendor">Vendor</string>
+    <string name="chhose_notes_dec"><u>Choose any one appropriate (Pdf,Excel,Images) </u></string>
+    <string name="uploaded">Uploaded</string>
+    <string name="frag_welcome">Frag_Welcome</string>
+    <string name="make_ir_amp_irn"><![CDATA[MAKE IR & IRN]]></string>
+    <string name="preview">Preview &amp; Submit  </string>
+    <string name="j_identification_reference_marking">I) ICS Stamp/Identification provided on accepted Items/ Materials /Equipments:</string>
+    <string name="a_visual">A) Visual</string>
+    <string name="b_dimensional">B) Dimensional:</string>
+    <string name="a_any_other">a)Any Other:</string>
+    <string name="c_list_of_instruments_equipment_used_for_facilitation_inspection">C) List of instruments/equipment used for facilitation inspection::</string>
+    <string name="d_description_of_any_jig_fixture_clamp_used_to_facilate_inspection">D) Description of any jig/fixture/clamp used to facilate inspection:</string>
+    <string name="c_calibration_status_of_instruments_equipments_used">C) Calibration Status of Instruments &amp; Equpiments used</string>
+    <string name="f_report_s_reviewed">D) Reports reviewed:</string>
+    <string name="g_test_s_witnessed">E) Tests Witnessed:</string>
+    <string name="h_other">F) Other:</string>
+    <string name="i_deviation_if_any">G) Non Conformities / Deviation, if any:</string>
+    <string name="upload_visit_slip">Upload Visit Slip</string>
+    <string name="upload_calibration_certification">Upload Calibration Certification</string>
+    <string name="upload_po">Upload PO</string>
+    <string name="choose_file">Choose File</string>
+    <string name="upload_qa_qc_records">Upload QA/QC records</string>
+    <string name="upload_tc">Upload TC</string>
+    <string name="upload_other_docs">Upload Other Docs</string>
+    <string name="upload_standard">Upload Standard</string>
+    <string name="upload_qap">Upload QAP</string>
+    <string name="observation">Observation</string>
+    <string name="create">Create</string>
+    <string name="view">View</string>
+    <string name="progress">Progress</string>
+    <string name="sync">Sync Fill data</string>
+    <string name="donesync">Data Synced</string>
+    <string name="logout">Logout</string>
+    <string name="annexture">Annexture</string>
+    <string name="insp_visit">Inspection Visit Slip</string>
+    <string name="logout_alert"><![CDATA[<font color=\'red\'><b>ARE YOU TRYING TO LOGOUT?, YOUR SAVED OFFLINE IR/IRN DATA WILL BE LOST. TRY TO SYNC DATA BEFORE LOGOUT.</b></font>]]></string>
+    <string name="logout_alert1">ARE YOU TRYING TO LOGOUT?, YOUR SAVED OFFLINE IR/IRN DATA WILL BE LOST. TRY TO SYNC DATA BEFORE LOGOUT.</string>
+    <string name="sync_before_message">• Don\'t turn off the device.\n• Don\'t turn off your connection.\n• It may take some time to send your data to server based on your network speed.\n\n\tYes I Understood and wanted to Sync my Inspection Reports Online.</string>
+    <string name="sync_before_title">Before Syncing data please read the message:</string>
+    <string name="error_file_executong">Error : while capturing your File</string>
+
+    // str array
+    <string-array name="vendor_name">
+        <item>Gail India Limited</item>
+        <item>GOL OFFSHORE LTD.</item>
+        <item>INSTRUMENT RESEARCH ASSOCIATES PVT. LTD</item>
+        <item>ADANI GAS LTD</item>
+        <item>MNGL 2013–2014 </item>
+        <item>GSPC GAS COMPANY LTD </item>
+        <item>CON AIR EQUIPMENTS PVT LTD</item>
+        <item>INSTRUMENT RESEARCH ASSOCIATES PVT. LTD.</item>
+        <item>Aneri Construction</item>
+        <item>N.G.BROTHERS</item>
+        <item>HINA INDUSTRIES</item>
+        <item>R S INSTRUMENTATION AND SERVICES.,</item>
+        <item>RMG Autometer Gas Technologies</item>
+        <item>Gilbarco Veeder Root India Private Limited</item>
+        <item>Perfect Pipeline Project</item>
+        <item>MIDCO LIMITED</item>
+        <item>VIJAY BUILDERS AND CONSTRUCTIONS PVT.LTD</item>
+        <item>ADANI GAS LTD- D.A</item>
+        <item>Gujarat Gas Financial Services Ltd.</item>
+        <item>Corrtech international pvt ltd</item>
+        <item>Sabarmati Gas Limited</item>
+        <item>SINEX SYSTEMS PVT.LTD</item>
+        <item>ADANI GAS DOM PM </item>
+        <item>UNITED FORGE INDUSTRIES</item>
+        <item>BHARAT OMAN REFINERIES LIMITED</item>
+        <item>INDIAN OIL - ADANI GAS PVT. LTD. (STEEL PIPELINE)</item>
+        <item>Dura LInd India Pvt. Ltd</item>
+        <item>R.S.Instrumentation &amp; Service</item>
+        <item>GREEN GAS LIMITED - LUCKNOW</item>
+        <item>Leo- Duct Engg. Consultant</item>
+        <item>Jain Irrigation Systems Ltd.</item>
+        <item>ECOMAN</item>
+        <item>Duraline India Pvt. Ltd</item>
+        <item>BPCL–(2014–15_ECD)</item>
+        <item>PETRO VALVES PVT . LTD.</item>
+    </string-array>
+
+    <string-array name="client_name">
+        <item>ONGC - BPA-BPB</item>
+        <item>GAIL (INDIA) LIMITED - PROJECT INSPECTION</item>
+        <item>Hindustan Petroleum COrporation Limited - South Zone</item>
+        <item>ADANI GAS LTD (2014 -15)Domestics%0d%0a</item>
+        <item>MNGL 2013–2014</item>
+        <item>GSPC GAS COMPANY LTD</item>
+        <item>CON AIR EQUIPMENTS PVT LTD</item>
+        <item>Adani Gas ltd(Steel Pipeline)</item>
+        <item>HPCL - North Central Retail Zone</item>
+        <item>GGCL - PO 4600001354</item>
+        <item>R S Instrumentation and Services Pvt Ltd.,</item>
+        <item>RMG AUTO METER GAS TECHNOLOGIES</item>
+        <item>HPCL – DU (2014–15)</item>
+        <item>Adani Gas ltd(Domestic)</item>
+        <item>ADANI GAS LTD(2014–15)STEEL PIPE INSPECTION</item>
+        <item>VIJAY BUILDERS AND CONSTRUCTIONS PVT.LTD</item>
+        <item>ADANI GAS LTD (2014–15)DOM.ALTERATION.</item>
+        <item>Gujarat Gas Financial Services Ltd. R and c Year 14 15</item>
+        <item>CORRTECH INTERNATIONAL PVT LTD</item>
+        <item>Sabarmati Gas Limited</item>
+        <item>ADANI GAS LTD (2014–2015)DOM-PM</item>
+        <item>BHARAT OMAN REFINERIES LIMITED</item>
+        <item>INDIANOIL-ADANI GAS PVT LTD(STEEL PIPELINE LAYING)</item>
+        <item>IGL- Vendor Inspection</item>
+        <item>R S INSTRUMENTATION AND SERVICES%0d%0a%0d%0a</item>
+        <item>Green Gas Limited - Lucknow</item>
+        <item>Mahanagar Gas Limited (14–15)</item>
+        <item>GUJARAT GAS LIMITED – PO 1502 – PE Vendor 14 – 15</item>
+        <item>Indiana Conveyors Pvt Ltd</item>
+        <item>Adani Gas Ltd - Vendor Inspection</item>
+        <item>BPCL–(2014–15_ECD)</item>
+        <item>ADANI GAS LTD (2014–15 VENDOR)</item>
+        <item>GUJARAT GAS COMPANY LTD.- STEEL PROJECT.</item>
+        <item>Ecoman</item>
+        <item>GAIL (INDIA) LIMITED - VENDOR INSPECTION</item>
+        <item>ADANI GAS LTD (2015–16 Domestics)</item>
+        <item>GUJARAT GAS LIMITED TPI – PE (2015–2016)</item>
+        <item>GUJARAT GAS LIMITED – PO 1503 – PE Vendor 14 – 15</item>
+        <item>ICP (India) Pvt. Ltd. - RO Site Insp.%0d%0a</item>
+        <item>INDIANOIL–ADANI GAS PVT. LTD. (6 Site Insp/15–16),</item>
+        <item>MGL–(2013–15_ECD)</item>
+        <item>INDIANOIL-ADANI GAS PVT LTD(VENDOR INSPECTION)</item>
+    </string-array>
+
+    <string-array name="station">
+        <item>New Delhi</item>
+        <item>Mumbai-TPI</item>
+        <item>Bangalore</item>
+        <item>Ahmedabad</item>
+        <item>Pune</item>
+        <item>Kolkata</item>
+        <item>Baroda</item>
+        <item>Chennai</item>
+        <item>Mumbai-CO</item>
+        <item>Surat</item>
+        <item>Mumbai-ECD</item>
+        <item>Ludhiana</item>
+        <item>Jaipur</item>
+        <item>Mumbai-Technology</item>
+        <item>Kanpur</item>
+    </string-array>
+
+    <string-array name="quantity">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+    </string-array>
+
+    <string-array name="material_name">
+        <item>Keyboard</item>
+        <item>Mouse</item>
+        <item>CPU</item>
+        <item>PC</item>
+        <item>Adapter</item>
+    </string-array>
+    //working / done hours
+    <string-array name="done_hours">
+        <item>Select</item>
+        <item>8</item>
+        <item>6</item>
+        <item>4</item>
+
+    </string-array>
+    //fake customer name
+    <string-array name="fake">
+        <item>Select</item>
+    </string-array>
+
+
+
+    //encoded strings for documents
+    <string name="fa_audio">&#xf1c7;</string>
+    <string name="fa_video">&#xf1c8;</string>
+    <string name="fa_image">&#xf1c5;</string>
+    <string name="fa_word">&#xf1c2;</string>
+    <string name="fa_pdf">&#xf1c1;</string>
+    <string name="fa_excel">&#xf1c3;</string>
+    <string name="fa_ppt">&#xf1c4;</string>
+    <string name="fa_text">&#xf0f6;</string>
+    <string name="fa_zip">&#xf1c6;</string>
+    <string name="fa_download">&#xf019;</string>
+    <string name="description">Description</string>
+    <string name="location">Location</string>
+    <string name="range">Range</string>
+    <string name="insert_extra_hours">INSERT EXTRA HOURS</string>
+    <string name="extra_hours">Extra Hours</string>
+    <string name="done_hours">Done hours.:</string>
+    <string name="refresh_plan">Refresh plan</string>
+    <string name="home">Home</string>
+    <string name="h_inspection_results_conclusion">H) Inspection Results / Conclusion</string>
+    <string name="j_photographs_of_inspected_items_materials_equipments">J) Photographs of inspected Items /Materials /Equipments</string>
+    <string name="sub_vendor_name_and_po_no">SUB-VENDOR NAME AND PO. NO.</string>
+    <string name="quantity">K) Quantity</string>
+
+</resources>
