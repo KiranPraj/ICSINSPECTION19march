@@ -34,7 +34,15 @@ class OutStationAdapter(var type: Int,internal var context: Context, internal va
          holder.fromdate.setText(array.get(position).from_date_local)
          holder.todate.setText(array.get(position).to_date_local)
         holder.narration_boarding.setText(array.get(position).narration_boarding)
-       var paid: String=array.get(position).paid_by_boarding;
+        var paid: String=array.get(position).paid_by_boarding
+        var invoice:String=array.get(position).invoiceable_boarding
+        if (invoice=="No") {
+            holder.invoice_no.isChecked=true
+        }
+        else
+        {
+            holder.invoice_yes.isChecked=true
+        }
        if (paid=="Self")
        {
            holder.r_second_paid.isChecked=true
@@ -43,8 +51,7 @@ class OutStationAdapter(var type: Int,internal var context: Context, internal va
        {
            holder.r_first_paid.isChecked=true
        }
-       /// holder.paid_by_boarding.setTag(array.get(position).paid_by_boarding)
-        holder.innvoiceable_radio_grp.setTag(array.get(position).invoiceable_boarding)
+
         holder.browse_file_boarding.setText(array.get(position).browse_file_boarding)
 
 
@@ -76,14 +83,7 @@ class OutStationAdapter(var type: Int,internal var context: Context, internal va
                 //  holder.textforoutstation.text="Fare(From-To)/Local Travel"
             }
 
-            if (  holder.paid_bytext.toString()=="Self")
-            {
-                holder.r_second_paid.isChecked=true
-            }
-            else
-            {
-                holder.r_first_paid.isChecked=true
-            }
+
             mCallback1.addrowcallback1(holder.add_textview,
                     holder.location_boarding.text.toString(),
                     holder.todate.text.toString(),
@@ -151,6 +151,8 @@ class OutStationAdapter(var type: Int,internal var context: Context, internal va
      internal var r_first_paid: RadioButton
      internal var r_second_paid: RadioButton
      internal var innvoiceable_radio_grp: RadioGroup
+        internal var invoice_yes: RadioButton
+        internal var invoice_no: RadioButton
        // internal var invoiceable_boarding: EditText
         internal var narration_boarding: EditText
         internal var browse_file_boarding: TextView
@@ -181,6 +183,8 @@ class OutStationAdapter(var type: Int,internal var context: Context, internal va
             r_first_paid = itemView!!.findViewById(R.id.r_first)
          r_second_paid = itemView!!.findViewById(R.id.r_second)
             innvoiceable_radio_grp = itemView!!.findViewById(R.id.innvoiceable_radio_grp)
+            invoice_yes = itemView!!.findViewById(R.id.invoice_yes)
+            invoice_no = itemView!!.findViewById(R.id.invoice_no)
           //  radiobtn_paidby = itemView!!.findViewById(R.id.r_first)
 
          //   invoiceable_boarding = itemView!!.findViewById(R.id.invoice_boarding)
@@ -192,17 +196,22 @@ class OutStationAdapter(var type: Int,internal var context: Context, internal va
             browse_file=itemView.findViewById(R.id.chose_file_boarding)
             add_textview=itemView.findViewById(R.id.add_outstation)
             remove_textview=itemView.findViewById(R.id.delete_outstation)
+            paid_bytext="Finance"
+            invoicetext="Yes"
            paid_by_boarding.setOnCheckedChangeListener(
                     RadioGroup.OnCheckedChangeListener { group, checkedId ->
 
                      val  radiobtn_paidby:RadioButton = itemView.findViewById(checkedId)
-                    paid_bytext= radiobtn_paidby.text.toString()
+
+                            paid_bytext= radiobtn_paidby.text.toString()
+
 
                     }
             )
             innvoiceable_radio_grp.setOnCheckedChangeListener(
                     RadioGroup.OnCheckedChangeListener { group, checkedId ->
                         val  radiobtn_invoice:RadioButton = itemView.findViewById(checkedId)
+
                         invoicetext= radiobtn_invoice.text.toString()
 
                     }

@@ -95,27 +95,26 @@ class WeeklyExpenseAdapter(internal var context: Context, internal var array: Ar
         holder.inv_amount.setText(array.get(position).getInv_amount())
         holder.client_no.setText(array.get(position).getClient_no())
         holder.browse_file.setText(array.get(position).getBrowse_file())
+        var paidby:String=array.get(position).getPaid_by()
 
-        holder.paid_by.setTag(holder.paid_by_value)
-        holder.radiobtn1.isChecked
         // var paid_by= holder.paid_by.check(holder.paid_by.checkedRadioButtonId).toString()
 
-        var id=holder.radiobtn1.isChecked
-        if (id==true)
+
+        if (paidby=="Self")
         {
-            holder.paid_by_value="Finance"
+            holder.radiobtn2.isChecked=true
 
         }
         else
         {
-            holder.paid_by_value="Self"
+            holder.radiobtn1.isChecked=true
         }
 
         holder.add_row.setOnClickListener {
 
             holder.particular_expenses.text
             mCallback.addrowcallback(holder.add_row,holder.selectdate.text.toString(), holder.particular_expenses.text.toString(),holder.total_amount.text.toString(),holder.igst.text.toString(),holder.cgst.text.toString(),holder.sgst.text.toString(),holder.gst_no.text.toString(),holder.service_provider.text.toString(),
-                    holder.inv_amount.text.toString(),holder.client_no.text.toString(),holder.browse_file.text.toString(),holder.paid_by_value)
+                    holder.inv_amount.text.toString(),holder.client_no.text.toString(),holder.browse_file.text.toString(),holder.paidby_text.toString())
         }
 
 
@@ -150,7 +149,7 @@ class WeeklyExpenseAdapter(internal var context: Context, internal var array: Ar
         internal lateinit var picker: DatePickerDialog
         internal lateinit var radiobtn1: RadioButton
         internal lateinit var radiobtn2: RadioButton
-        var  paid_by_value:String=" "
+        var paidby_text: String? =null
 
         init {
             selectdate = itemView!!.findViewById(R.id.edit_date)
@@ -169,6 +168,11 @@ class WeeklyExpenseAdapter(internal var context: Context, internal var array: Ar
             paid_by=itemView.findViewById(R.id.expenses_radio_grp)
             radiobtn1=itemView.findViewById(R.id.r_first_weekly)
             radiobtn2=itemView.findViewById(R.id.r_second_weekly)
+            paidby_text="Finance"
+            paid_by.setOnCheckedChangeListener { group, checkedId ->
+                val radiobtn_id:RadioButton=itemView.findViewById(checkedId)
+                paidby_text=radiobtn_id.text.toString()
+            }
 
 
 
