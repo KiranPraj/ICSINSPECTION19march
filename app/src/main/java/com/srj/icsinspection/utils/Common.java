@@ -19,9 +19,9 @@ public class Common {
     //public static final String GET_MATERIALS_URL = "http://192.168.0.243:86/api/Getmaterial";
     //private static final String BASE_URL = "http://10.0.3.2/ics_inspection/api/";
     //private static final String BASE_URL = "http://192.168.0.247/ics_inspection/api/";
-//   private static final String BASE_URL = "http://192.168.0.243:88/Home/";  // local
+   //  private static final String BASE_URL = "http://192.168.0.243:88/Home/";  // local url
     //public static final String BASE_URL = "http://icspl.org:5009/Home/";
-   public static final String BASE_URL = "http://icspl.org:5008/Home/"; // testing live url
+     public static final String BASE_URL = "http://icspl.org:5008/Home/"; //  live url
 
    // private static final String BASE_URL = "http://183.87.126.174:5008/Home/";
    // public static final String BASE_URL="http://103.69.91.214:5008/Home/";

@@ -119,10 +119,31 @@ public class FileManager {
             else if (isDownloadsDocument(uri)) {
 
                 final String id = DocumentsContract.getDocumentId(uri);
-                final Uri contentUri = ContentUris.withAppendedId(
+                // commented by kiran 19feb2020
+              /*  final Uri contentUri = ContentUris.withAppendedId(
                         Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
 
-                return getDataColumn(context, contentUri, null, null);
+                return getDataColumn(context, contentUri, null, null);*/
+                // addeed by kiran 19feb2020
+
+                if (id != null) {
+                    return Environment.getExternalStorageDirectory().toString() + "/Download/" + id;
+                }
+
+                String id1 = DocumentsContract.getDocumentId(uri);
+                if (id1.startsWith("raw:")) {
+                    id1 = id.replaceFirst("raw:", "");
+                    File file = new File(id1);
+                    if (file.exists())
+                        return id;
+                }
+
+                final Uri contentUri1 = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
+                return getDataColumn(context, contentUri1, null, null);
+           // till here added
+
+
+
             }
             // MediaProvider
             else if (isMediaDocument(uri)) {

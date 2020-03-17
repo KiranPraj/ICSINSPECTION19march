@@ -18,10 +18,10 @@ public class RetrofitClient {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-        httpClient.readTimeout(30, TimeUnit.MINUTES)
-                .writeTimeout(30, TimeUnit.MINUTES)
-                .connectTimeout(30, TimeUnit.MINUTES)
-                .retryOnConnectionFailure(false);
+        httpClient .connectTimeout(30, TimeUnit.MINUTES)
+                .readTimeout(30, TimeUnit.MINUTES)  //before 30  in min
+                .writeTimeout(30, TimeUnit.MINUTES)   //before 30
+                 .retryOnConnectionFailure(true);  //added again
         return httpClient.addInterceptor(logging).build();
     }
 

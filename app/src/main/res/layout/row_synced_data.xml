@@ -52,8 +52,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:background="@color/bg_gray" />
-
             <Button
+                android:visibility="visible"
                 android:id="@+id/sync"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -62,7 +62,32 @@
                 android:background="@color/spots_dialog_color"
                 android:text="DONE"
                 android:padding="0dp"
-                android:textSize="20sp" />
+
+                android:textSize="15sp" />
+
+
+  <LinearLayout
+    android:id="@+id/linearlayout_resycbtn"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center"
+    android:visibility="gone"
+    >
+
+
+
+            <Button
+                android:id="@+id/Resync"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="4dp"
+                android:background="#FF9800"
+                android:text="Re Sync"
+                android:padding="0dp"
+                android:textSize="15sp" />
+</LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </LinearLayout>

@@ -72,7 +72,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SyncFragment extends Fragment implements SyncAdapter.AdapterCallback {
+public class NewSyncFragment extends Fragment implements SyncAdapter.AdapterCallback {
     private static final String TAG = "SyncFragment";
 
 
@@ -86,8 +86,7 @@ public class SyncFragment extends Fragment implements SyncAdapter.AdapterCallbac
     private ImageView sync;
     private RecyclerView recyclerView;
     private SyncAdapter mAdapter;
-    SyncHandler mSyncHandler;
-    // private List<SyncModel> synclist = new ArrayList<>();
+
     private List<SyncModel> synclist = new ArrayList<>();
     private SharedPreferences mPreference;
     final int[] a = {0};
@@ -113,14 +112,13 @@ public class SyncFragment extends Fragment implements SyncAdapter.AdapterCallbac
         mService = Common.getAPI();
         mHelper = new DbHelper(mContext);
         mDatabase = mHelper.getWritableDatabase();
-        // btn_start_sync = mView.findViewById(R.id.btn_start_sync);
+
         nodata = mView.findViewById(R.id.nodata);
         mPreference = getActivity().getSharedPreferences(getString(R.string.user), Context.MODE_PRIVATE);
         sync = mView.findViewById(R.id.sync);
         syndata = mView.findViewById(R.id.syncdata);
 
         mDialog = new SpotsDialog(mView.getContext(), "Syncing, please wait...");
-        //datahandler();
 
 
         recyclerView = (RecyclerView) mView.findViewById(R.id.rv_syncdata);
@@ -150,8 +148,7 @@ public class SyncFragment extends Fragment implements SyncAdapter.AdapterCallbac
                 SyncModel syncModel = new SyncModel(date, ponumber, date_of_fill);
                 synclist.add(syncModel);
             }
-//                mAdapter.notifyDataSetChanged();
-            //recyclerView.setAdapter(mAdapter);
+
         }
         if (synclist.size() > 0) {
             recyclerView.setAdapter(mAdapter);
@@ -163,66 +160,16 @@ public class SyncFragment extends Fragment implements SyncAdapter.AdapterCallbac
             mDialog.cancel();
             Common.disableDialog(mDialog);
         }
-      //  mProgressDialog.cancel();
+        //  mProgressDialog.cancel();
 
         //done irirn
     }
 
-    private void getIRIRNDATA() {
-
-    }
-
-    private void datahandler() {
-//        MainActivity mn=new MainActivity();
-//        try {
-//            mn.sendQTYDATA();
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
-    }
 
 
-    // insert Product_name db
-    private void insert_sql_file(int[] sql_name) {
-        mDatabase = mHelper.getWritableDatabase();
-        try {
-            for (int file : sql_name) {
-                int insertCount = insertFromFile(mContext, file);
-                //   Toast.makeText(mActivity, "Rows loaded from file= " + insertCount, Toast.LENGTH_SHORT).show();
-                mDialog.cancel();
-            }
-        } catch (IOException e) {
-            Toasty.error(mContext, e.toString(), Toast.LENGTH_SHORT, true).show();
 
-            e.printStackTrace();
-        }
-    }
 
-    public int insertFromFile(Context context, int resourceId) throws IOException {
-        mDatabase = mHelper.getWritableDatabase();
-        // Reseting Counter
-        int result = 0;
 
-        // Open the resource
-        InputStream insertsStream = context.getResources().openRawResource(resourceId);
-        BufferedReader insertReader = new BufferedReader(new InputStreamReader(insertsStream));
-
-        // Iterate through lines (assuming each insert has its own line and theres no other stuff)
-        while (insertReader.ready()) {
-            String insertStmt = insertReader.readLine();
-            try {
-                mDatabase.execSQL(insertStmt);
-            } catch (Exception e) {
-                e.getMessage();
-            }
-
-            result++;
-        }
-        insertReader.close();
-
-        // returning number of inserted rows
-        return result;
-    }
 
     // Handle Sync Button Click
     private void SyncHandler(String date, String ponumber) {
@@ -268,13 +215,9 @@ public class SyncFragment extends Fragment implements SyncAdapter.AdapterCallbac
             while (cursor.moveToNext()) {
                 Common.showDialog(mDialog);
                 mDialog.setTitle("Sending Final data...");
-            //   mDialog.setCancelable(false);
-//                SimpleDateFormat dateFormatprev = new SimpleDateFormat("MM-dd-yyyy", Locale.ENGLISH);
-//                Date d;
+
                 final ArrayList<String> checkList = new ArrayList<>();
-//                d = dateFormatprev.parse(cursor.getString(cursor.getColumnIndex("inspection_date")));
-//                SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy", Locale.ENGLISH);
-//                String inspDate = dateFormat.format(d);
+
                 Common.FINAL_IRIRN_REPORT_ID = cursor.getString(cursor.getColumnIndex(DbConstant.IrIrn_Data_Entry.INSPECTION_ID));
 
                 Log.i(TAG, "sendQTYDATA: " + cursor.getString(cursor.getColumnIndex("inspection_id")));
@@ -296,7 +239,7 @@ public class SyncFragment extends Fragment implements SyncAdapter.AdapterCallbac
                         String.valueOf(cursor.getInt(cursor.getColumnIndex("rej_qty"))),
                         "fdfd", "fgfg", "dfdfd",
                         String.valueOf(cursor.getInt(cursor.getColumnIndex("insp_qty")))
-                ).subscribeOn(Schedulers.io())
+                        ).subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeWith(new Observer<List<InsertionModel>>() {
                             @Override
@@ -321,8 +264,8 @@ public class SyncFragment extends Fragment implements SyncAdapter.AdapterCallbac
                                                 synclist.clear();
                                                 mDatabase.delete(DbConstant.Final_DATA_ENTRY.TABLE_FINAL_DATA, null, null);
                                                 onlinefinaldata();
-                                              //  Common.disableDialog(mDialog);
-                                               // Toasty.success(getActivity(),  " Data send Successfully", Toast.LENGTH_LONG).show();
+                                                //  Common.disableDialog(mDialog);
+                                                // Toasty.success(getActivity(),  " Data send Successfully", Toast.LENGTH_LONG).show();
 
                                                 //mHelper.updateFianlAfterSync(date,ponumber);
                                             }
@@ -408,6 +351,7 @@ public class SyncFragment extends Fragment implements SyncAdapter.AdapterCallbac
         final Cursor mCursor = new DbHelper(getActivity()).check_IR_DATA(date, ponumber);
         cursorCount1= String.valueOf(mCursor.getCount());
         if (mCursor.getCount() > 0) {
+            Log.i(TAG, "sendIRData: cursorCountNuMBER: " + mCursor.getCount());
 
 
 
@@ -447,17 +391,19 @@ public class SyncFragment extends Fragment implements SyncAdapter.AdapterCallbac
                 Log.i(TAG, "sendIRData: Sending DESC nunber: " +
                         "" + mCursor.getString(mCursor.getColumnIndex(DbConstant.IrIrn_Data_Entry.DESC_NUM)) +
                         " MAX: " + new DbHelper(getActivity()).getMaxDescNum(mCursor.getString(mCursor.getColumnIndex(DbConstant.IrIrn_Data_Entry.INSPECTION_ID)), mCursor.getString(mCursor.getColumnIndex(DbConstant.IrIrn_Data_Entry.CUST_ID))));
-            //  String other=  mCursor.getString(mCursor.getColumnIndex(DbConstant.IrIrn_Data_Entry.Other));
-            //  String deviation=mCursor.getString(mCursor.getColumnIndex(DbConstant.IrIrn_Data_Entry.Deviation));
-             //   String identification=mCursor.getString(mCursor.getColumnIndex(DbConstant.IrIrn_Data_Entry.Identification));
-                  mService.sendirirndata(RequestBody.create(MediaType.parse("text/plain"), mCursor.getString(mCursor.getColumnIndex(DbConstant.IrIrn_Data_Entry.PROJECT_VEND)) == null ? "" : mCursor.getString(mCursor.getColumnIndex(DbConstant.IrIrn_Data_Entry.PROJECT_VEND))),
+                //  String other=  mCursor.getString(mCursor.getColumnIndex(DbConstant.IrIrn_Data_Entry.Other));
+                //  String deviation=mCursor.getString(mCursor.getColumnIndex(DbConstant.IrIrn_Data_Entry.Deviation));
+                //   String identification=mCursor.getString(mCursor.getColumnIndex(DbConstant.IrIrn_Data_Entry.Identification));
+
+
+                mService.sendirirndata1(RequestBody.create(MediaType.parse("text/plain"), mCursor.getString(mCursor.getColumnIndex(DbConstant.IrIrn_Data_Entry.PROJECT_VEND)) == null ? "" : mCursor.getString(mCursor.getColumnIndex(DbConstant.IrIrn_Data_Entry.PROJECT_VEND))),
                         RequestBody.create(MediaType.parse("text/plain"), mCursor.getString(mCursor.getColumnIndex(DbConstant.IrIrn_Data_Entry.PO_NUM)) == null ? "" : mCursor.getString(mCursor.getColumnIndex(DbConstant.IrIrn_Data_Entry.PO_NUM))),
                         RequestBody.create(MediaType.parse("text/plain"), mCursor.getString(mCursor.getColumnIndex(DbConstant.IrIrn_Data_Entry.CONSULTANT_NAME)) == null ? "" : mCursor.getString(mCursor.getColumnIndex(DbConstant.IrIrn_Data_Entry.CONSULTANT_NAME))),
                         RequestBody.create(MediaType.parse("text/plain"), mCursor.getString(mCursor.getColumnIndex(DbConstant.IrIrn_Data_Entry.CUSTOMER_NAME)) == null ? "" : mCursor.getString(mCursor.getColumnIndex(DbConstant.IrIrn_Data_Entry.CUSTOMER_NAME))),
                         RequestBody.create(MediaType.parse("text/plain"), mCursor.getString(mCursor.getColumnIndex(DbConstant.IrIrn_Data_Entry.ICS_REG_NUMBER)) == null ? "" : mCursor.getString(mCursor.getColumnIndex(DbConstant.IrIrn_Data_Entry.ICS_REG_NUMBER))),
                         RequestBody.create(MediaType.parse("text/plain"), mCursor.getString(mCursor.getColumnIndex(DbConstant.IrIrn_Data_Entry.EMP_CODE)) == null ? "" : mCursor.getString(mCursor.getColumnIndex(DbConstant.IrIrn_Data_Entry.EMP_CODE))),
                         RequestBody.create(MediaType.parse("text/plain"), mCursor.getString(mCursor.getColumnIndex(DbConstant.IrIrn_Data_Entry.EMP_STATION)) == null ? "" : mCursor.getString(mCursor.getColumnIndex(DbConstant.IrIrn_Data_Entry.EMP_STATION))),
-                         RequestBody.create(MediaType.parse("text/plain"), mCursor.getString(mCursor.getColumnIndex(DbConstant.IrIrn_Data_Entry.VISUALA)) == null ? "" : mCursor.getString(mCursor.getColumnIndex(DbConstant.IrIrn_Data_Entry.VISUALA))),
+                        RequestBody.create(MediaType.parse("text/plain"), mCursor.getString(mCursor.getColumnIndex(DbConstant.IrIrn_Data_Entry.VISUALA)) == null ? "" : mCursor.getString(mCursor.getColumnIndex(DbConstant.IrIrn_Data_Entry.VISUALA))),
                         RequestBody.create(MediaType.parse("text/plain"), mCursor.getString(mCursor.getColumnIndex(DbConstant.IrIrn_Data_Entry.VISUALB)) == null ? "" : mCursor.getString(mCursor.getColumnIndex(DbConstant.IrIrn_Data_Entry.VISUALB))),
                         RequestBody.create(MediaType.parse("text/plain"), mCursor.getString(mCursor.getColumnIndex(DbConstant.IrIrn_Data_Entry.FeInspection)) == null ? "" : mCursor.getString(mCursor.getColumnIndex(DbConstant.IrIrn_Data_Entry.FeInspection))),
                         RequestBody.create(MediaType.parse("text/plain"), mCursor.getString(mCursor.getColumnIndex(DbConstant.IrIrn_Data_Entry.FnInspection)) == null ? "" : mCursor.getString(mCursor.getColumnIndex(DbConstant.IrIrn_Data_Entry.FnInspection))),
@@ -527,42 +473,39 @@ public class SyncFragment extends Fragment implements SyncAdapter.AdapterCallbac
                         RequestBody.create(MediaType.parse("text/plain"), cursorCount1)
 
                 )
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribeWith(new Observer<List<InsertionModel>>() {
-                            @Override
-                            public void onSubscribe(Disposable d) {
 
-                            }
+                       .enqueue(new Callback<List<InsertionModel>>() {
+                           @Override
+                           public void onResponse(Call<List<InsertionModel>> call, Response<List<InsertionModel>> response)
+                           {
+                               if (response.isSuccessful()&& response.body().get(0).sts>0)
 
-                            @Override
-                            public void onNext(List<InsertionModel> insertionModels) {
 
-                                if (insertionModels != null) {
-                                    Log.i(TAG, "onResponse:Database Count " + insertionModels.get(0).getSts());
+                                   if ( response.body().get(0).sts> 0) {
+                                       if (checkList.size() > 0) {
+                                           mDialog.show();
+                                           Common.showDialog(mDialog);
+                                           new DbHelper(getActivity()).doneInspectionID(checkList.get(0));
+                                           Log.i(TAG, "onResponse:Checklist: " + checkList.get(0));
+                                           Log.i(TAG, "onResponse:Updated Report ID " + Common.IRIRN_REPORT_ID);
 
-                                    if (insertionModels.get(0).getSts() > 0) {
-                                        if (checkList.size() > 0) {
-                                            mDialog.show();
-                                            Common.showDialog(mDialog);
-                                            new DbHelper(getActivity()).doneInspectionID(checkList.get(0));
-                                            Log.i(TAG, "onResponse:Checklist: " + checkList.get(0));
-                                            Log.i(TAG, "onResponse:Updated Report ID " + Common.IRIRN_REPORT_ID);
-
-                                            //new DbHelper(getActivity()).doneInspectionID(checkList.get(0));
-                                            //mSyncHandler.syncIRAgainCallback();
+                                           //new DbHelper(getActivity()).doneInspectionID(checkList.get(0));
+                                           //mSyncHandler.syncIRAgainCallback();
 
                                            // Toasty.success(getActivity(), "" + Queue[0] + " Data send Successfully", Toast.LENGTH_LONG).show();
-                                            Queue[0] = Queue[0] + 1;
-                                            Log.e("count",""+mCursor.getCount()+" :"+mCursor.getPosition()+"\n "+Queue[0]);
-                                            if (mCursor.getPosition() == mCursor.getCount()) {
-                                                synclist.clear();
-                                                getLocalData();
+                                           Queue[0] = Queue[0] + 1;
+                                           Log.i("count",""+mCursor.getCount()+" :"+mCursor.getPosition()+"\n "+Queue[0]);
+                                           if (mCursor.getPosition() == mCursor.getCount()) {
+                                              synclist.clear();
+                                               getLocalData();
 
-                                                Toasty.success(getActivity(), "Data Sync Successfully " , Toast.LENGTH_LONG).show();
+                                             Toasty.success(getActivity(), "Data Sync Successfully " , Toast.LENGTH_LONG).show();
 
 
-                                            }
+                                           }
+                                      //     synclist.clear();
+                                    //       Toasty.success(getActivity(), "Data Sync Successfully " , Toast.LENGTH_LONG).show();
+
                                       /* int p=mCursor.getPosition();
                                        int c=mCursor.getCount();
                                             if (mCursor.getPosition() == mCursor.getCount()) {
@@ -580,47 +523,36 @@ public class SyncFragment extends Fragment implements SyncAdapter.AdapterCallbac
 
                                             }*/
 
-                                        }
+                                       }
 
 
-                                    } else {
-                                        mDialog.cancel();
-                                        mProgressDialog.cancel();
-                                        Toasty.error(getActivity(), "Status "+insertionModels.get(0).getSts(), Toast.LENGTH_SHORT).show();
+                                   } else {
+                                       mDialog.cancel();
+                                       mProgressDialog.cancel();
+                                       Toasty.error(getActivity(), "Status "+response.body().get(0).getSts(), Toast.LENGTH_SHORT).show();
 
-                                    }
-                                }
-                                    else {
-                                        mDialog.cancel();
-                                        mProgressDialog.cancel();
-                                        Toasty.error(getActivity(),"network error",Toast.LENGTH_SHORT).show();
-                                        //  Toasty.error(getActivity(), "Please Try Again", Toast.LENGTH_LONG).show();
+                                   }
+
+                               /*else {
+                                   mDialog.cancel();
+                                   mProgressDialog.cancel();
+                                   Toasty.error(getActivity(),"network error",Toast.LENGTH_SHORT).show();
+                                   //  Toasty.error(getActivity(), "Please Try Again", Toast.LENGTH_LONG).show();
 //                                        Toast.makeText(mContext, "Please Try Again", Toast.LENGTH_SHORT).show();
-                                    }
+                               }*/
+                           }
 
+                           @Override
+                           public void onFailure(Call<List<InsertionModel>> call, Throwable t)
+                           {
+                               //   mSyncHandler.cancelsyncCallback();
+                               mProgressDialog.cancel();
+                               mDialog.cancel();
+                               Log.i(TAG, "onResponse:Updated Report ID " + t.getMessage());
+                               Toasty.error(getActivity(), "Errorrrrr: " + t.getMessage(), Toast.LENGTH_LONG).show();
 
-
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-                                //   mSyncHandler.cancelsyncCallback();
-                                mProgressDialog.cancel();
-                                mDialog.cancel();
-                                Log.i(TAG, "onResponse:Updated Report ID " + e.getMessage());
-                                Toasty.error(getActivity(), "Error1: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                            }
-
-                            @Override
-                            public void onComplete() {
-
-                                Log.i(TAG, "onComplete: Called");
-
-                                // mDialog.cancel();
-                                //  mSyncHandler.completedSyncCallback();
-                            }
-                        });
-
+                           }
+                       });
             }
             //mCursor.close();
             mDialog.setTitle("Getting new planning details");

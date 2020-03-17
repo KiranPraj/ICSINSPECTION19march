@@ -102,6 +102,7 @@ class InspectionReportFragment :Fragment(),
     var dayofweek: String? = null
     var holiday: Int = 0
 
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mView = inflater.inflate(R.layout.fragment_inspection_report, container, false)
         init()
@@ -118,7 +119,12 @@ class InspectionReportFragment :Fragment(),
 
         mView.spin_Description.setBackgroundColor(Color.WHITE)
         mView.spin_siteIncharge.setBackgroundColor(Color.WHITE)
+        mPreference = activity!!.getSharedPreferences(getString(R.string.user), Context.MODE_PRIVATE)
 
+      var emp_name=mPreference!!.getString("emp_name","")
+      var emp_code=mPreference!!.getString("user_name","")
+      mView.emp_code.text=emp_code
+        mView.inspector_name.text=emp_name
 
         val dateSetListener = DatePickerDialog.OnDateSetListener { datePicker, year, month, dayOfMonth ->
             mycalender.set(Calendar.YEAR, year)
@@ -193,10 +199,45 @@ class InspectionReportFragment :Fragment(),
                 mActivity!!.toast_i("please select location")
                 return@setOnClickListener
             }
-            else if(!sp_cust_name.selectedItem.toString().equals("Select")&&spin_Description.selectedItem.toString().equals("Select")){
+            else if(sp_cust_name.selectedItem.toString().equals("Select")&&spin_Description.selectedItem.toString().equals("Select")){
                 mActivity!!.toast_i("Please select the Description")
                 return@setOnClickListener
             }
+            else if(spin_Description.selectedItem.toString().equals("Select")) {
+                mActivity!!.toast_i("please select Description")
+                return@setOnClickListener
+            }
+            else if(spin_siteIncharge.selectedItem.toString().equals("Select")) {
+                mActivity!!.toast_i("please select SiteIncharge")
+                return@setOnClickListener
+            }
+
+            else if(et_iitem_name.text.toString().equals("")){
+                mActivity!!.toast_i("Please select item name")
+                return@setOnClickListener
+            }
+            else if(et_batch_no.text.toString().equals("")){
+                mActivity!!.toast_i("Please select Batch no.")
+                return@setOnClickListener
+            }
+            else if(et_quantity.text.toString().equals("")){
+                mActivity!!.toast_i("Please select Quantity")
+                return@setOnClickListener
+            }
+            else if(et_sp_drawing.text.toString().equals("")){
+                mActivity!!.toast_i("Please select specification or drawing")
+                return@setOnClickListener
+            }
+            else if(et_codes_stand.text.toString().equals("")){
+                mActivity!!.toast_i("Please select standards/code")
+                return@setOnClickListener
+            }
+
+
+
+
+
+
             else {
                 holiday = 0
             }
@@ -321,7 +362,12 @@ class InspectionReportFragment :Fragment(),
                     et_po_number.text.toString(),et_sub_ven_po_number.text.toString(), tv_dtinspection!!.text.toString(), et_cnslt_name.text.toString(),
                     if (rb_insp_type_single.isChecked) "Stage" else "Final", et_iitem_name.text.toString(),
                     et_batch_no.text.toString(), et_quantity.text.toString(), et_sp_drawing.text.toString(),
-                    et_codes_stand.text.toString(), Common.TAG_TYPE, empCode!!, uuid!!,spin_location.selectedItem.toString(), rangeselected!!.text.toString(),
+                    et_codes_stand.text.toString(),
+                    Common.TAG_TYPE,
+                    empCode!!,
+                    uuid!!,
+                    spin_location.selectedItem.toString(),
+                    rangeselected!!.text.toString(),
                     spin_Description.selectedItem.toString(), spin_siteIncharge.selectedItem.toString(), et_noofinspection.text.toString())
 
 

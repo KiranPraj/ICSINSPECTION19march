@@ -37,7 +37,7 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("PostDetails")
         //  @POST("login.php")
-    Observable<List<InsertionModel>> login(@Field("id") String id, @Field("pwd") String pass);
+    Observable<List<InsertionModel>>login(@Field("id") String id, @Field("pwd") String pass);
 
     @FormUrlEncoded
     @POST("section.php")
@@ -249,6 +249,93 @@ Observable<List<InsertionModel>> irn(@Field("bal_qty") String In,
 
 
                                                    );
+
+
+
+    @Multipart
+    // @POST("get_OfflineI_R.php")
+    @POST("NewIrIrnMultipleData")
+    Call<List<InsertionModel>> sendirirndata1(@Part("vendor_name") RequestBody vendor_name,
+                                                   @Part("po_number") RequestBody po_num,
+                                                   @Part("cunsltent_name") RequestBody $cunsltant_name,
+                                                   @Part("client_name") RequestBody client_name,
+                                                   @Part("ics_reg_num") RequestBody ics_reg_num,
+                                                   @Part("emp_code") RequestBody emp_code,
+                                                   @Part("station") RequestBody station,
+                                                   @Part("v_A") RequestBody v_a,
+                                                   @Part("v_b") RequestBody v_b,
+                                                   @Part("fac_insp") RequestBody fac_insp, // test_a (list of instrument/equipment..)
+                                                   @Part("desc_fac") RequestBody desc_fac, // test_b  (desc of any jig/fixture...)
+                                                   @Part("dimmension") RequestBody dim,
+                                                   @Part("callib") RequestBody calib,
+                                                   @Part("report_r") RequestBody report_r,
+                                                   @Part("test_w") RequestBody test_w,
+                                                   @Part("status") RequestBody status,
+                                                   @Part("insp_status") RequestBody insp_status,
+                                                   @Part MultipartBody.Part v_a_file,
+                                                   @Part MultipartBody.Part v_b_file,
+                                                   @Part MultipartBody.Part dim_file,
+                                                   @Part MultipartBody.Part calib_file,
+                                                   @Part MultipartBody.Part report_r_file,
+                                                   @Part MultipartBody.Part test_w_file,
+                                                   @Part("insp_date") RequestBody insp_date,
+                                                   @Part("item_material") RequestBody item_material,
+                                                   @Part("quantity") RequestBody quantity,
+                                                   @Part("spec_drw") RequestBody spec_drw,
+                                                   @Part("code_standard") RequestBody code_stnd,
+                                                   @Part("other") RequestBody other,
+                                                   @Part("deviation") RequestBody deviationother,
+                                                   @Part("identification") RequestBody identification,
+                                                   @Part("emp_name") RequestBody emp_name,
+                                                   @Part("emp_station") RequestBody emp_station,
+                                                   @Part("batch_no") RequestBody batch_no,
+                                                   @Part("report_no") RequestBody report_no,
+                                                   @Part MultipartBody.Part v_slip,
+                                                   @Part MultipartBody.Part tc_slip,
+                                                   @Part("stand") RequestBody stand,
+                                                   @Part MultipartBody.Part qaqc,
+                                                   @Part("qsp") RequestBody qsp,
+                                                   @Part("Upload_po") RequestBody upload_po,
+                                                   @Part MultipartBody.Part upload_calib,
+                                                   @Part MultipartBody.Part other_doc,
+                                                   @Part("desc_num") RequestBody desc_num,
+                                                   @Part("tag_type") RequestBody tag_type,
+                                                   @Part("create_date") RequestBody create_date,
+                                                   @Part("max_num") RequestBody max_num,
+                                                   @Part("insp_visit") RequestBody insp_visit,
+                                                   @Part("annex") RequestBody annex,
+                                                   @Part("TS_Location") RequestBody location,
+                                                   @Part("TS_Range") RequestBody range,
+                                                   @Part("TS_CFRDesc") RequestBody description,
+                                                   @Part("TS_projectType") RequestBody project_type,
+                                                   @Part("TS_Qty") RequestBody no_of_jobs,
+                                                   @Part("TS_Workhrs") RequestBody donehrs,
+                                                   @Part("TS_Extrahrs") RequestBody extrahrs,
+                                                   @Part("TS_CFRId") RequestBody cfrid,
+                                                   @Part("TS_siteIncharge") RequestBody siteincharge,
+                                                   //new
+                                                   @Part("InspectionResult") RequestBody insepectionresult,
+                                                   @Part MultipartBody.Part  insepectionresult_file,
+                                                   @Part("Photograph") RequestBody photograph,
+                                                   @Part MultipartBody.Part photograph_file,
+                                                   @Part("Quantity_Desc") RequestBody quantity_desc,
+                                                   @Part("Quantity_Qty") RequestBody Quantity_qty,
+                                                   @Part("Quantity_Unit") RequestBody Quantity_unit,
+                                                   @Part MultipartBody.Part Quantity_file,
+                                                   @Part("Qtydescription") RequestBody Qtydescription,
+                                                   @Part("Qty") RequestBody Qty,
+                                                   @Part("Qty_Unit") RequestBody Qty_Unit,
+                                                   @Part MultipartBody.Part DescriptionFile,
+                                                   @Part("subvendorname_po") RequestBody subvendorponame,
+                                                   @Part MultipartBody.Part Other_File,
+                                                   @Part MultipartBody.Part Deviation_File,
+                                                   @Part MultipartBody.Part Identification_File,
+                                                   @Part ("noofdesc") RequestBody countnumbr
+
+
+    );
+
+
 
     @GET("GetLocation")
     Call<List<Location>>

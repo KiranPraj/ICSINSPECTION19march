@@ -1,12 +1,15 @@
 package com.srj.icsinspection.dbhelper;
 
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Build;
+import android.text.Editable;
 import android.util.Log;
+import android.widget.RadioGroup;
 
 import com.srj.icsinspection.constants.DbConstant;
 import com.srj.icsinspection.model.DescriptionModel;
@@ -17,6 +20,9 @@ import com.srj.icsinspection.model.Location;
 import com.srj.icsinspection.model.ReportDetailsModel;
 import com.srj.icsinspection.model.SingleRowModel;
 import com.srj.icsinspection.model.SiteInchargeModel;
+import com.srj.icsinspection.model.WeeklyExpenseModel;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,7 +32,9 @@ public class DbHelper extends SQLiteOpenHelper {
 
     private static final String TAG = "DbHelper";
     private static final String DB_NAME = "IOCL_CALIBRATION.db";
-    private static final int DB_VERSION = 2;
+ // private static final int DB_VERSION = 2;
+   private static final int DB_VERSION = 3;
+
     private String[] temp_tables = {DbConstant.TEMP_ENTRY.TABLE_A_TEMP,
             DbConstant.TEMP_ENTRY.TABLE_AA_TEMP,
             DbConstant.TEMP_ENTRY.TABLE_B_TEMP,
@@ -193,6 +201,43 @@ public class DbHelper extends SQLiteOpenHelper {
         );
 
         // insertMaterialData(db);
+        // expense tble
+        db.execSQL("create table IF NOT EXISTS  table_expenses ( select_date DATE," +
+                "particular_expenses varchar(100), total_amount varchar(100), igst varchar(100), cgst varchar(100)," +
+                "sgst varchar(100), gst_no varchar(100), service_provider varchar(100), paid_by varchar(100), inv_amount varchar(100), client_no varchar(100), choose_file varchar(100)" +
+                ") ");
+
+
+
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + DbConstant.OUTSTATION_LOCAL.TABLE_OUTSTATION_LOCALEXPENSES + "( "
+                        + DbConstant.OUTSTATION_LOCAL.FROM_LOCAL + " VARCHAR(250)" + " , "
+                        + DbConstant.OUTSTATION_LOCAL.TO_LOCAL + " VARCHAR(250) " + " , "
+                        + DbConstant.OUTSTATION_LOCAL.EXPENSES + " VARCHAR(250) " + " , "
+                        + DbConstant.OUTSTATION_LOCAL.IGST + " VARCHAR(250) " + " , "
+                        + DbConstant.OUTSTATION_LOCAL.CGST + " VARCHAR(250) " + " , "
+                        + DbConstant.OUTSTATION_LOCAL.SGST + " VARCHAR(250) " + " , "
+                        + DbConstant.OUTSTATION_LOCAL.GST_NO + " VARCHAR(250) " + " , "
+                        + DbConstant.OUTSTATION_LOCAL.SERVICE_PROVIDER + " VARCHAR(250) " + " , "
+                        + DbConstant.OUTSTATION_LOCAL.PAID_BY + " VARCHAR(250) " + " , "
+                        + DbConstant.OUTSTATION_LOCAL.INVOICEABLE + " VARCHAR(250) " + " , "
+                        + DbConstant.OUTSTATION_LOCAL.NARRATION + " VARCHAR(250) " + " , "
+                        + DbConstant.OUTSTATION_LOCAL.CHOOSE_FILE + " VARCHAR(250) " + "); ");
+
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + DbConstant.OUTSTATION_BOARDING.TABLE_OUTSTATION_BOARDINGEXPENSES + "( "
+                + DbConstant.OUTSTATION_BOARDING.LOCATION + " VARCHAR(250)" + " , "
+                + DbConstant.OUTSTATION_BOARDING.EXPENSES + " VARCHAR(250) " + " , "
+                + DbConstant.OUTSTATION_BOARDING.IGST + " VARCHAR(250) " + " , "
+                + DbConstant.OUTSTATION_BOARDING.CGST + " VARCHAR(250) " + " , "
+                + DbConstant.OUTSTATION_BOARDING.SGST + " VARCHAR(250) " + " , "
+                + DbConstant.OUTSTATION_BOARDING.GST_NO + " VARCHAR(250) " + " , "
+                + DbConstant.OUTSTATION_BOARDING.SERVICE_PROVIDER + " VARCHAR(250) " + " , "
+                + DbConstant.OUTSTATION_BOARDING.PAID_BY + " VARCHAR(250) " + " , "
+                + DbConstant.OUTSTATION_BOARDING.INVOICEABLE + " VARCHAR(250) " + " , "
+                + DbConstant.OUTSTATION_BOARDING.NARRATION + " VARCHAR(250) " + " , "
+                + DbConstant.OUTSTATION_BOARDING.CHOOSE_FILE + " VARCHAR(250) " + "); ");
+
+
+
     }
 
 
@@ -212,7 +257,49 @@ public class DbHelper extends SQLiteOpenHelper {
             Log.i(TAG, "onUpgrade: old version is 2");
             db.execSQL(TEMP_1ST_PAGE_DATA);
         }*/
+        //wait for few moments
+
         if(newVersion>oldVersion){
+            if(newVersion==3)
+            {
+                db.execSQL("create table IF NOT EXISTS  table_expenses (select_date DATE," +
+                        "particular_expenses varchar(100), total_amount varchar(100), igst varchar(100), cgst varchar(100)," +
+                        "sgst varchar(100), gst_no varchar(100), service_provider varchar(100), paid_by varchar(100), inv_amount varchar(100), client_no varchar(100), choose_file varchar(100)" +
+                        ") ");
+                return;
+
+            }
+            if (newVersion==4)
+            {
+                db.execSQL("CREATE TABLE IF NOT EXISTS " + DbConstant.OUTSTATION_LOCAL.TABLE_OUTSTATION_LOCALEXPENSES + "( "
+                        + DbConstant.OUTSTATION_LOCAL.FROM_LOCAL + " VARCHAR(250)" + " , "
+                        + DbConstant.OUTSTATION_LOCAL.TO_LOCAL + " VARCHAR(250) " + " , "
+                        + DbConstant.OUTSTATION_LOCAL.EXPENSES + " VARCHAR(250) " + " , "
+                        + DbConstant.OUTSTATION_LOCAL.IGST + " VARCHAR(250) " + " , "
+                        + DbConstant.OUTSTATION_LOCAL.CGST + " VARCHAR(250) " + " , "
+                        + DbConstant.OUTSTATION_LOCAL.SGST + " VARCHAR(250) " + " , "
+                        + DbConstant.OUTSTATION_LOCAL.GST_NO + " VARCHAR(250) " + " , "
+                        + DbConstant.OUTSTATION_LOCAL.SERVICE_PROVIDER + " VARCHAR(250) " + " , "
+                        + DbConstant.OUTSTATION_LOCAL.PAID_BY + " VARCHAR(250) " + " , "
+                        + DbConstant.OUTSTATION_LOCAL.INVOICEABLE + " VARCHAR(250) " + " , "
+                        + DbConstant.OUTSTATION_LOCAL.NARRATION + " VARCHAR(250) " + " , "
+                        + DbConstant.OUTSTATION_LOCAL.CHOOSE_FILE + " VARCHAR(250) " + "); ");
+
+                db.execSQL("CREATE TABLE IF NOT EXISTS " + DbConstant.OUTSTATION_BOARDING.TABLE_OUTSTATION_BOARDINGEXPENSES + "( "
+                        + DbConstant.OUTSTATION_BOARDING.LOCATION + " VARCHAR(250)" + " , "
+                        + DbConstant.OUTSTATION_BOARDING.EXPENSES + " VARCHAR(250) " + " , "
+                        + DbConstant.OUTSTATION_BOARDING.IGST + " VARCHAR(250) " + " , "
+                        + DbConstant.OUTSTATION_BOARDING.CGST + " VARCHAR(250) " + " , "
+                        + DbConstant.OUTSTATION_BOARDING.SGST + " VARCHAR(250) " + " , "
+                        + DbConstant.OUTSTATION_BOARDING.GST_NO + " VARCHAR(250) " + " , "
+                        + DbConstant.OUTSTATION_BOARDING.SERVICE_PROVIDER + " VARCHAR(250) " + " , "
+                        + DbConstant.OUTSTATION_BOARDING.PAID_BY + " VARCHAR(250) " + " , "
+                        + DbConstant.OUTSTATION_BOARDING.INVOICEABLE + " VARCHAR(250) " + " , "
+                        + DbConstant.OUTSTATION_BOARDING.NARRATION + " VARCHAR(250) " + " , "
+                        + DbConstant.OUTSTATION_BOARDING.CHOOSE_FILE + " VARCHAR(250) " + "); ");
+
+            }
+
             String query="ALTER TABLE "+DbConstant.IrIrn_Data_Entry.TABLE_IR_IRN +" ADD COLUMN "+DbConstant.IrIrn_Data_Entry.SUB_VENDOR_PO_NUM+ " VARCHAR(250) ;";
             db.execSQL(query);
             query="ALTER TABLE "+DbConstant.IrIrn_Data_Entry.TABLE_IR_IRN +" ADD COLUMN "+DbConstant.IrIrn_Data_Entry.INSPECTION_RESULTS+" VARCHAR(250) ;";
@@ -283,6 +370,10 @@ public class DbHelper extends SQLiteOpenHelper {
 
             db.execSQL("CREATE TABLE " + DbConstant.QuantityDescription_Entry.TABLE_QUANTITY_DESCRIPTION + "(" + DbConstant.QuantityDescription_Entry.CLIENTREG_NO + " VARCHAR(250),"
                     + DbConstant.QuantityDescription_Entry.DESCRIPTION + " VARCHAR(200) " + "," + DbConstant.QuantityDescription_Entry.UNIT + " VARCHAR(200)"+ "," + DbConstant.QuantityDescription_Entry.CFIRD + " VARCHAR(200)"+ "," + DbConstant.QuantityDescription_Entry.PONUMBER + " VARCHAR(200))");
+
+
+
+
 
         }
 
@@ -989,7 +1080,9 @@ public class DbHelper extends SQLiteOpenHelper {
 //       return mDatabase.query(DbConstant.IrIrn_Data_Entry.TABLE_IR_IRN, null,
 //               "server_status=?", new String[]{"pending"}, null, null,
 //               DbConstant.IrIrn_Data_Entry.DESC_NUM + " ASC");
+       // and desmaxnum=cus
         return mDatabase.rawQuery("SELECT * FROM " + DbConstant.IrIrn_Data_Entry.TABLE_IR_IRN + " WHERE " + DbConstant.IrIrn_Data_Entry.SERVER_STATUS + "='done' GROUP BY "+ DbConstant.IrIrn_Data_Entry.DATE_OF_INSP + "," + DbConstant.IrIrn_Data_Entry.PO_NUM  + " ORDER BY " + DbConstant.IrIrn_Data_Entry.DATE_OF_INSP +" DESC", null);
+
     }
 
     public Cursor getPendingdata() {
@@ -1007,14 +1100,19 @@ public class DbHelper extends SQLiteOpenHelper {
                 "status=? AND " + DbConstant.Final_DATA_ENTRY.INSPECTION_DATE + "=? AND " + DbConstant.Final_DATA_ENTRY.PONumber + "=?", new String[]{"pending", date, ponumber}, null, null,
                 null, null);
     }
-    public void updateFianlAfterSync(String date,String ponumber){
+  // added by kiran 1 jan 2020
+    public int updateReSyncstaus(String date, String ponumber){
         SQLiteDatabase database= this.getWritableDatabase();
         ContentValues mValues = new ContentValues();
-        mValues.put(DbConstant.Final_DATA_ENTRY.STATUS, "fetched");
-        database.update(DbConstant.Final_DATA_ENTRY.TABLE_FINAL_DATA, mValues,
-                "status=? AND " + DbConstant.Final_DATA_ENTRY.INSPECTION_DATE + "=? AND " + DbConstant.Final_DATA_ENTRY.PONumber + "=?", new String[]{"done", date, ponumber});
+        mValues.put(DbConstant.IrIrn_Data_Entry.SERVER_STATUS, "pending");
+      return database.update(DbConstant.IrIrn_Data_Entry.TABLE_IR_IRN, mValues,
+                "server_status=? AND " + DbConstant.IrIrn_Data_Entry.DATE_OF_INSP + "=? AND " + DbConstant.IrIrn_Data_Entry.PO_NUM + "=?", new String[]{"done", date, ponumber});
+// UPDATE table_name
+//SET column1 = value1, column2 = value2...., columnN = valueN
+//WHERE [condition];
 
     }
+    // tiill here
     public void updateFinalIRIrnQty(Double balQty, String po_number, String ics_reg_num, String description,
                                     String reportNo, String clientName, String vendorName, String date_of_insp,
                                     String emp_name, String user_name, String station,
@@ -1472,7 +1570,157 @@ public class DbHelper extends SQLiteOpenHelper {
         }
         return mDataList;
     }
+// added 11 march
+    public Cursor getOutstationlocalExpesesrow()
+    {
+        SQLiteDatabase database=this.getWritableDatabase();
+        return database.rawQuery("select distinct * from table_outstation_localexpenses where from_local!= ' '",null);
+
+    }
+    public Cursor getOutstationBoardingExpesesrow()
+    {
+        SQLiteDatabase database=this.getWritableDatabase();
+        return database.rawQuery("select distinct * from table_outstation_boardingexpenses where location!= ' '",null);
+
+    }
+
+    public  Cursor getweeklyexpenserows() {
+    ArrayList<WeeklyExpenseModel> mDataList = new ArrayList<>();
+    SQLiteDatabase db = this.getWritableDatabase();
+   return db.rawQuery("select distinct * from table_expenses where select_date!= ' ' ", null);
+   /* if (cursor != null && cursor.getCount() > 0) {
+        while (cursor.moveToNext()) {
+            mDataList.add(new WeeklyExpenseModel(
+                    cursor.getString(cursor.getColumnIndex("select_date")),
+                    cursor.getString(cursor.getColumnIndex("particular_expenses")),
+                    cursor.getString(cursor.getColumnIndex("total_amount")),
+                    cursor.getString(cursor.getColumnIndex("igst")),
+                    cursor.getString(cursor.getColumnIndex("cgst")),
+                    cursor.getString(cursor.getColumnIndex("sgst")),
+                    cursor.getString(cursor.getColumnIndex("gst_no")),
+                    cursor.getString(cursor.getColumnIndex("service_provider")),
+                    cursor.getString(cursor.getColumnIndex("paid_by")),
+                    cursor.getString(cursor.getColumnIndex("inv_amount")),
+                    cursor.getString(cursor.getColumnIndex("client_no")),
+                    cursor.getString(cursor.getColumnIndex("choose_file")),
+                    cursor.getString(cursor.getColumnIndex("choose_file"))
+
+            ));
+        }
+
+    }
+    cursor.close();
+    return mDataList;*/
+}
+
+  public Cursor getRecentlyAddedRow()
+  {
+      SQLiteDatabase database=this.getWritableDatabase();
+      return database.rawQuery("select * from table_expenses order by id desc limit 1",null);
+  }
+
+
+// added 2 march 2020
+    public void insertinExpenseTable(String particurExpense, String totalAmount, String igst, String cgst, String sgst, String gstNo, String serviceProvider, String invAmount, String clientNo, CharSequence chooseFile, String paidBy,String selct_date) {
+        SQLiteDatabase mDatabase = this.getWritableDatabase();
+        ContentValues mValues = new ContentValues();
+        mValues.put("select_date", selct_date);
+        mValues.put("particular_expenses", String.valueOf(particurExpense));
+        mValues.put("total_amount", String.valueOf(totalAmount));
+        mValues.put("igst", String.valueOf(igst));
+        mValues.put("cgst", String.valueOf(cgst));
+        mValues.put("sgst", String.valueOf(sgst));
+        mValues.put("gst_no", String.valueOf(gstNo));
+        mValues.put("service_provider", String.valueOf(serviceProvider));
+        mValues.put("paid_by", String.valueOf(paidBy));
+        mValues.put("inv_amount", String.valueOf(invAmount));
+        mValues.put("client_no", String.valueOf(clientNo));
+        mValues.put("choose_file", String.valueOf(chooseFile));
+
+        mDatabase.insert("table_expenses",null,mValues);
+       // mDatabase.replace("table_expenses",null,mValues);  // add this 7 march2020
+    }
+    // added 11 march 2020
+    public void insertInLocalOutstationTable(String from,String to,String expenses,String igst,String cgst, String sgst, String gst_no,
+                                             String service_provider, String paidby, String invoiceable, String narration, String chose_file)
+    {
+        SQLiteDatabase database=this.getWritableDatabase();
+        ContentValues contentValues=new ContentValues();
+        contentValues.put("from_local",from);
+        contentValues.put("to_local",to);
+        contentValues.put("expenses",expenses);
+        contentValues.put("igst",igst);
+        contentValues.put("cgst",cgst);
+        contentValues.put("sgst",sgst);
+        contentValues.put("gst_no",gst_no);
+        contentValues.put("service_provider",service_provider);
+        contentValues.put("paid_by",paidby);
+        contentValues.put("invoiceable",invoiceable);
+        contentValues.put("narration",narration);
+        contentValues.put("choose_file",chose_file);
+        database.insert("table_outstation_localexpenses",null,contentValues);
+
+    }
+    //added 11 march
+    public void insertInBoardingOutstationTable(String location,String expenses,String igst,String cgst, String sgst, String gst_no,
+                                             String service_provider, String paidby, String invoiceable, String narration, String chose_file)
+    {
+        SQLiteDatabase database=this.getWritableDatabase();
+        ContentValues contentValues1=new ContentValues();
+        contentValues1.put("location",location);
+        contentValues1.put("expenses",expenses);
+        contentValues1.put("igst",igst);
+        contentValues1.put("cgst",cgst);
+        contentValues1.put("sgst",sgst);
+        contentValues1.put("gst_no",gst_no);
+        contentValues1.put("service_provider",service_provider);
+        contentValues1.put("paid_by",paidby);
+        contentValues1.put("invoiceable",invoiceable);
+        contentValues1.put("narration",narration);
+        contentValues1.put("choose_file",chose_file);
+        database.insert("table_outstation_boardingexpenses",null,contentValues1);
+
+    }
+
+
+    public void insertorreplaceinExpenseTable(String particurExpense, String totalAmount, String igst, String cgst, String sgst, String gstNo, String serviceProvider, String invAmount, String clientNo, CharSequence chooseFile, String paidBy,String selct_date) {
+        SQLiteDatabase mDatabase = this.getWritableDatabase();
+        ContentValues mValues = new ContentValues();
+        mValues.put("select_date", selct_date);
+        mValues.put("particular_expenses", String.valueOf(particurExpense));
+        mValues.put("total_amount", String.valueOf(totalAmount));
+        mValues.put("igst", String.valueOf(igst));
+        mValues.put("cgst", String.valueOf(cgst));
+        mValues.put("sgst", String.valueOf(sgst));
+        mValues.put("gst_no", String.valueOf(gstNo));
+        mValues.put("service_provider", String.valueOf(serviceProvider));
+        mValues.put("paid_by", String.valueOf(paidBy));
+        mValues.put("inv_amount", String.valueOf(invAmount));
+        mValues.put("client_no", String.valueOf(clientNo));
+        mValues.put("choose_file", String.valueOf(chooseFile));
+
+        mDatabase.replace("table_expenses",null,mValues);
+        // mDatabase.replace("table_expenses",null,mValues);  // add this 7 march2020
+    }
+
+// added 4 march 2020
+    public void deleteweeklyrow(String selectdate) {
+        SQLiteDatabase database=this.getWritableDatabase();
+        database.delete("table_expenses", "select_date=?",new String[]{selectdate});
 
 
 
+    }
+
+    // addeed 13 march2020
+    public void deleteLocalOutstationRow(String gst_no)
+    {
+        SQLiteDatabase database=this.getWritableDatabase();
+        database.delete("table_outstation_localexpenses","gst_no=?",new String[]{gst_no});
+    }
+    public void deleteBoardingOutstationRow(String gst_no)
+    {
+        SQLiteDatabase database=this.getWritableDatabase();
+        database.delete("table_outstation_boardingexpenses","gst_no=?",new String[]{gst_no});
+    }
 }

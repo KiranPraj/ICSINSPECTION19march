@@ -397,4 +397,37 @@ public class DbConstant {
 
     }
 
+    // added 11 march 2020
+    public static final class OUTSTATION_LOCAL implements  BaseColumns
+    {
+        public static final String TABLE_OUTSTATION_LOCALEXPENSES="table_outstation_localexpenses";
+        public static final String FROM_LOCAL ="from_local";
+        public static final String TO_LOCAL ="to_local";
+        public static final String EXPENSES ="expenses";
+        public static final String IGST ="igst";
+        public static final String CGST ="cgst";
+        public static final String SGST ="sgst";
+        public static final String GST_NO ="gst_no";
+        public static final String SERVICE_PROVIDER ="service_provider";
+        public static final String PAID_BY ="paid_by";
+        public static final String INVOICEABLE ="invoiceable";
+        public static final String NARRATION ="narration";
+        public static final String CHOOSE_FILE ="choose_file";
+    }
+    public static final class OUTSTATION_BOARDING implements  BaseColumns
+    {
+        public static final String TABLE_OUTSTATION_BOARDINGEXPENSES="table_outstation_boardingexpenses";
+        public static final String LOCATION ="location";
+        public static final String EXPENSES ="expenses";
+        public static final String IGST ="igst";
+        public static final String CGST ="cgst";
+        public static final String SGST ="sgst";
+        public static final String GST_NO ="gst_no";
+        public static final String SERVICE_PROVIDER ="service_provider";
+        public static final String PAID_BY ="paid_by";
+        public static final String INVOICEABLE ="invoiceable";
+        public static final String NARRATION ="narration";
+        public static final String CHOOSE_FILE ="choose_file";
+    }
+
 }

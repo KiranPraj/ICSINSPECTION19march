@@ -66,7 +66,12 @@
     <string name="insp_visit">Inspection Visit Slip</string>
     <string name="logout_alert"><![CDATA[<font color=\'red\'><b>ARE YOU TRYING TO LOGOUT?, YOUR SAVED OFFLINE IR/IRN DATA WILL BE LOST. TRY TO SYNC DATA BEFORE LOGOUT.</b></font>]]></string>
     <string name="logout_alert1">ARE YOU TRYING TO LOGOUT?, YOUR SAVED OFFLINE IR/IRN DATA WILL BE LOST. TRY TO SYNC DATA BEFORE LOGOUT.</string>
+    <string name="ReSync_alert">Are You Sure, You want to Resynced your Data? \n Here You can Resyc data of any particular date,\n that date data is not submit in properly.</string>
+
+
     <string name="sync_before_message">• Don\'t turn off the device.\n• Don\'t turn off your connection.\n• It may take some time to send your data to server based on your network speed.\n\n\tYes I Understood and wanted to Sync my Inspection Reports Online.</string>
+    <string name="resync_before_message">• Before Change Resync data Status, Please Verify FA-67 .\n• Don\'t turn off the device.\n• Don\'t turn off your connection.\n• It may take some time to send your data to server based on your network speed.\n\n\tYes I Understood and wanted to Sync my Inspection Reports Online.</string>
+    <string name="REsync_before_title">Are you sure you want to Change this date Sync Status?</string>
     <string name="sync_before_title">Before Syncing data please read the message:</string>
     <string name="error_file_executong">Error : while capturing your File</string>
 
@@ -232,5 +237,20 @@
     <string name="j_photographs_of_inspected_items_materials_equipments">J) Photographs of inspected Items /Materials /Equipments</string>
     <string name="sub_vendor_name_and_po_no">SUB-VENDOR NAME AND PO. NO.</string>
     <string name="quantity">K) Quantity</string>
+    <string name="ReSync">ReSync</string>
+    <string name="ics_surviourname">Name :</string>
+    <string name="emp_code">Employee Code</string>
+    <string name="Expense">Expense</string>
+    <string name="tap_to_select_date">Select Date</string>
+    <string name="weekly">Weekly</string>
+    <string name="out_station">OutStation</string>
+    <string name="na">NA</string>
+    <string name="summary">Summary</string>
+    <string name="not_attached">Not Attached</string>
+    <string name="choose_photo">Choose Photo</string>
+    <string name="doccuments">Document</string>
+    <string name="attached">Attached</string>
+    <string name="dialogTitle">Delete?</string>
+    <string name="dialogMessage">Are You Sure,You want to delete this row?</string>
 
 </resources>

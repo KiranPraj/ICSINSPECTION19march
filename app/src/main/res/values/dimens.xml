@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="space10">10dp</dimen>
+    <dimen name="space15">15dp</dimen>
+    <dimen name="space5">5dp</dimen>
+    <dimen name="h4">10dp</dimen>
+</resources>

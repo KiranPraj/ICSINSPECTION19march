@@ -41,7 +41,10 @@ import com.srj.icsinspection.activity.LoginActivity;
 import com.srj.icsinspection.constants.DbConstant;
 import com.srj.icsinspection.dbhelper.DbHelper;
 import com.srj.icsinspection.fragment.DoneSyncFragment;
+import com.srj.icsinspection.fragment.ExpenseFragment;
 import com.srj.icsinspection.fragment.InspectionReportFragment;
+
+import com.srj.icsinspection.fragment.ResSyncFragment;
 import com.srj.icsinspection.fragment.SyncFragment;
 import com.srj.icsinspection.handler.ApiService;
 import com.srj.icsinspection.handler.SyncHandler;
@@ -251,6 +254,13 @@ public class MainActivity extends AppCompatActivity implements UpdateHelper.OnUp
             case R.id.tb_synhandle:
                 syncativity();
                 break;
+
+            case  R.id.tb_Resync:
+                doneResynchandler();
+                break;
+            case R.id.tb_expenses:
+                ExpenseFragment();
+                break;
             case R.id.tb_newplan:
                 progressBar.setTitle("Getting new plan");
                 progressBar.setMessage("please wait....");
@@ -265,10 +275,51 @@ public class MainActivity extends AppCompatActivity implements UpdateHelper.OnUp
         return super.onOptionsItemSelected(item);
     }
 
+    private void ExpenseFragment()
+    {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.main_container,new ExpenseFragment(),getString(R.string.frag_finding)).addToBackStack("Expense fragment")
+                .commit();
+    }
+
+
     private void donesynchandler() {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.main_container, new DoneSyncFragment(), getString(R.string.frag_insp))
                 .commit();
+
+    }
+    private void doneResynchandler() {
+
+        String msg;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            msg = String.valueOf(Html.fromHtml(getString(R.string.ReSync_alert), Html.FROM_HTML_MODE_LEGACY));
+        } else {
+            msg = String.valueOf(getString(R.string.ReSync_alert));
+        }
+
+        new AlertDialog.Builder(MainActivity.this)
+                .setTitle("Please Note:")
+                .setMessage(msg)
+                .setPositiveButton("RESYNC", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.main_container, new  ResSyncFragment(), getString(R.string.frag_insp))
+                                .commit();
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                })
+                .show();
+
+
+
 
     }
 
@@ -407,6 +458,10 @@ public class MainActivity extends AppCompatActivity implements UpdateHelper.OnUp
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.main_container, new SyncFragment(), getString(R.string.frag_insp))
                 .commit();
+
+        /*getSupportFragmentManager().beginTransaction()
+                .replace(R.id.main_container, new NewSyncFragment(), getString(R.string.frag_insp))
+                .commit();*/
     }
 
     // Handle Logout menu item clicked

@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ClipData;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -20,6 +21,7 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.media.ExifInterface;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -69,12 +71,15 @@ import com.srj.icsinspection.model.SingleRowModel;
 import com.srj.icsinspection.utils.Common;
 import com.srj.icsinspection.utils.FileManager;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -97,8 +102,6 @@ import static android.util.Log.i;
  */
 public class FindinObsFragment extends Fragment implements FindingObjAdapter.AddClickListener,
         View.OnClickListener, TempDataSaveListener {
-
-
     @Override
     public void isTempClickListener(Boolean isPressed) {
 
@@ -114,6 +117,8 @@ public class FindinObsFragment extends Fragment implements FindingObjAdapter.Add
     private Context mContext;
     private Uri imageToUploadUri;
     private final int IMAGE_CAPTURE_REQUEST = 2515;
+    private static final int GALLERY = 1;
+    private static final int DOCUMENT =7 ;
     private FindingObjAdapter.MyViewHolder viewHolder, viewHolder_a, viewHolder_b, viewHolder_c,
             viewHolder_d, viewHolder_e, viewHolder_f, viewHolder_g, viewHolder_h, viewHolder_i, viewHolder_j, viewHolder_h_new, viewHolder_j_new,viewHolder_k;
     private Button cameraButton;
@@ -124,6 +129,7 @@ public class FindinObsFragment extends Fragment implements FindingObjAdapter.Add
     private int cursour_position_count;
     File imageBtnFile;
     private NotificationManagerCompat managerCompat;
+    private static final String IMAGE_DIRECTORY ="/inspectionfolder" ;
 
 
     private TextView tv_A, tv_a, tv_b, tv_c, tv_d, tv_e, tv_f, tv_g, tv_h, tv_i, tv_j, tv_h_new, tv_j_new,tv_k;
@@ -1182,7 +1188,16 @@ public class FindinObsFragment extends Fragment implements FindingObjAdapter.Add
             @Override
             public void onClick(View v) {
 
-                tempSaveInspection(); // Temp  save inspection Report
+                if(sp_done_hours.getSelectedItem().toString().equals("H"))
+                {
+                    tempSaveInspectionforHoliday();
+                }
+                else
+                {
+                    tempSaveInspection(); // Temp  save inspection Report
+                }
+
+
 
 
             }
@@ -1191,6 +1206,94 @@ public class FindinObsFragment extends Fragment implements FindingObjAdapter.Add
 
 
 
+
+    }
+///added 18feb2020 by kiran
+    private void tempSaveInspectionforHoliday() {
+        // added 21 feb
+        /*if (mAdapter.getItemCount() > 0 ||
+                mAdapter_a.getItemCount() > 0 ||
+                mAdapter_b.getItemCount() > 0 ||
+                mAdapter_c.getItemCount() > 0 ||
+                mAdapter_d.getItemCount() > 0 ||
+                mAdapter_e.getItemCount() > 0 ||
+                mAdapter_f.getItemCount() > 0 ||
+                mAdapter_g.getItemCount() > 0 ||
+                mAdapter_h.getItemCount() > 0 ||
+                mAdapter_i.getItemCount() > 0 ||
+                mAdapter_j.getItemCount() > 0 ||
+                mAdapter_h_new.getItemCount() > 0 ||
+                mAdapter_j_new.getItemCount() > 0 ||
+                mAdapter_k.getItemCount() > 0){*/
+
+
+
+            //  Log.i(TAG, "tempSaveInspection: greater than 0");
+            final ArrayList<Integer> maxList = checkMaxNum();
+
+            int max = maxList.get(0);
+            for (Integer maxNumber : maxList) {
+                if (maxNumber > max)
+                    max = maxNumber;
+            }
+            //  Log.i(TAG, "onClick: Maximum number: " + max);
+            mDatabase = mHelper.getWritableDatabase();
+            int lastCount = new DbHelper(mContext).getCountMax(model.getUuid());
+            if (lastCount == 0) {
+                i(TAG, "tempSaveInspection: new lows starting");
+                //  insertAllNullVewsFirst(max);
+            }
+
+            if (max > lastCount && lastCount != 0) {
+                i(TAG, "tempSaveInspection: creating max: " + max + " last " + lastCount + " extra rows: " + (max - lastCount) + "");
+                //delete  row and insert again
+                // new DbHelper(mContext).deleteTemp2Page(model.getUuid());
+
+                //  insertAllNullVewsFirst(max - lastCount);
+            }
+
+            new DbHelper(mContext).deleteAllTempRows(model.getUuid());
+            try {
+                Log.e(TAG, "Adaptor get count: "+mAdapter_k.getItemCount() );
+
+
+                      //  updateRowsk();
+                        updateRowsA();
+                        updateRowsk();
+                        updateRowsa();
+                        updateRowsb();
+                        updateRowsc();
+                        updateRowsd();
+                        updateRowse();
+                        updateRowsf();
+                        updateRowsg();
+                        updateRowsh();
+                        updateRowsi();
+                        updateRowsj();
+                        updateRowshnew();
+                        updateRowsjnew();
+
+                        Toasty.warning(mContext, "Draft Saved Successfully ", Toast.LENGTH_LONG).show();
+
+                        btn_preview.setVisibility(View.VISIBLE);
+                        btn_temp_save.setVisibility(View.INVISIBLE);
+                        btn_preview.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                handlePreviewButton(); // insertion of inspection Report
+                            }
+
+                        });
+
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+       /* } else {
+            Toasty.warning(mContext, "Insert atleast one row to Save Temporary", Toast.LENGTH_LONG).show();
+            btn_preview.setVisibility(View.INVISIBLE);
+        }*/
 
     }
 
@@ -1293,6 +1396,12 @@ public class FindinObsFragment extends Fragment implements FindingObjAdapter.Add
 
 
     private void updateRowsA() {
+     if(sp_done_hours.getSelectedItem().toString().equals("H"))
+     {
+         saveContentConstantValues(1, DbConstant.TEMP_ENTRY.TABLE_A_TEMP,
+                 "nil", "NA");
+     }
+
 
         for (int j = 1; j <= mAdapter.getItemCount(); j++) {
             viewHolder = (FindingObjAdapter.MyViewHolder) rv_list.findViewHolderForAdapterPosition(j - 1);
@@ -1788,6 +1897,13 @@ public class FindinObsFragment extends Fragment implements FindingObjAdapter.Add
 
     // handle preview Button click listener
     private void handlePreviewButton() {
+        if(sp_done_hours.getSelectedItem().toString().equals("H")) {
+           // tempSaveInspectionforHoliday();  // addedd 18feb 2020 kiran
+        }
+        else
+        {
+            tempSaveInspection();
+        }
         if(sp_done_hours.getSelectedItem().toString().equals("Select"))
         {
             Toasty.error(mContext, "Please fill working hours", Toast.LENGTH_LONG).show();
@@ -1928,8 +2044,8 @@ public class FindinObsFragment extends Fragment implements FindingObjAdapter.Add
                                             .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
-                                                    holidayirirn();
-
+                                                   // holidayirirn();
+                                                    holidayirirnNEW();
                                                     new DbHelper(mContext).updateHolidaySp(date);
                                                     dialog.dismiss();
                                                 }
@@ -1956,6 +2072,97 @@ public class FindinObsFragment extends Fragment implements FindingObjAdapter.Add
                                     }
                                 }, 3000);*/
                             }
+
+                            // added by kiran 22 feb 20202
+                            private void holidayirirnNEW()
+                            {
+
+                                ContentValues mValues = new ContentValues();
+                                mValues.put(DbConstant.Inspection_Entry.INSPECTION_ID, INSPECTION_ID);
+                                mValues.put(DbConstant.Inspection_Entry.CUSTOMER_NAEM, model.getCust_name());
+                                mValues.put(DbConstant.Inspection_Entry.CONSULTANT_NAEM, model.getConslt_name());
+                                mValues.put(DbConstant.Inspection_Entry.PROJECT_VEND, model.getProject_vend());
+                                mValues.put(DbConstant.Inspection_Entry.ITEM, model.getItem());
+                                mValues.put(DbConstant.Inspection_Entry.BATCH_NO, model.getBatch_no());
+                                mValues.put(DbConstant.Inspection_Entry.QUANTITY, model.getQuantity());
+                                mValues.put(DbConstant.Inspection_Entry.SPEC_DRAWINGS, model.getSpec_drawings());
+                                mValues.put(DbConstant.Inspection_Entry.CODES_STANDARD, model.getCodes_standard());
+                                mValues.put(DbConstant.Inspection_Entry.DATE_OF_INSP, model.getDate_of_insp());
+                                mValues.put(DbConstant.Inspection_Entry.INSP_TYPE, model.getInsp_type());
+                                mValues.put(DbConstant.Inspection_Entry.EMP_CODE, preferences.getString("user_name", null));
+                                mValues.put(DbConstant.Inspection_Entry.ICS_REG_NUM, preferences.getString(getString(R.string.ics_reg_num), null));
+                                //new
+                                mValues.put(DbConstant.Inspection_Entry.SUB_VENDOR_PO_NUMBER, model.getSub_ven_po_number());
+
+                                mValues.put(DbConstant.Inspection_Entry.EMP_STATION, preferences.getString(getString(R.string.station), null));
+                                mValues.put(DbConstant.Inspection_Entry.COUNTDOUN, 1); // changgs
+                                mValues.put(DbConstant.Inspection_Entry.LOCATION,model.getLocation());
+                                mValues.put(DbConstant.Inspection_Entry.DESCRIPTION,model.getDescription());
+                                mValues.put(DbConstant.Inspection_Entry.SITEINCHARGE,model.getSiteIncharge());
+                                mValues.put(DbConstant.Inspection_Entry.RANGE,model.getRange());
+                                mValues.put(DbConstant.Inspection_Entry.PROJECT_TYPE,model.getProject_type());
+                                mValues.put(DbConstant.Inspection_Entry.DONE_HOURS,sp_done_hours.getSelectedItem().toString());
+                                if(et_extra_hours.getText().toString().equals(""))
+                                {
+                                    mValues.put(DbConstant.Inspection_Entry.EXTRA_HOURS,"0");
+                                }
+                                else
+                                {
+                                    mValues.put(DbConstant.Inspection_Entry.EXTRA_HOURS,et_extra_hours.getText().toString());
+                                }
+                                if(model.getProject_type().equals("Quantity"))
+                                {
+                                    mValues.put(DbConstant.Inspection_Entry.NO_OF_JOBS,model.getNo_of_jobs());
+                                }
+                                else
+                                {
+                                    mValues.put(DbConstant.Inspection_Entry.NO_OF_JOBS,"");
+                                }
+                                long id = mDatabase.insert(DbConstant.Inspection_Entry.TABLE_INSPECTION,null,mValues);
+
+                                if (id <= 0) {
+                                    Toasty.error(mContext, "Data Insertion Failed", Toast.LENGTH_SHORT, true).show();
+                                }
+                                insert_A();
+                                insert_a();
+                                insert_b();
+                                insert_c();
+                                insert_d();
+                                insert_e();
+                                insert_f();
+                                insert_g();
+                                insert_h();
+                                insert_i();
+                                insert_j();
+                                insert_h_new();
+                                insert_j_new();
+                                insert_k();
+
+                                if (model.getInsp_type().equalsIgnoreCase("final")) {
+                                    if (sendBalQty())
+                                        insertIRIRN();
+                                    Toasty.info(mContext, "Data Submitted successfully", Toast.LENGTH_SHORT).show();
+
+                                    try {
+                                        getActivity().finish();
+                                        mContext.startActivity(new Intent(getActivity(), MainActivity.class));
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                } else if (model.getInsp_type().equalsIgnoreCase("Stage")) {
+                                    insertIRIRN();
+                                    Toasty.info(mContext, "Data Submitted successfully", Toast.LENGTH_LONG).show();
+                                    try {
+                                        getActivity().finish();
+                                        mContext.startActivity(new Intent(getActivity(), MainActivity.class));
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                            }
+
+
 
                             private void holidayirirn() {
                                 int max = maxList.get(0);
@@ -2070,6 +2277,8 @@ public class FindinObsFragment extends Fragment implements FindingObjAdapter.Add
             i(TAG, "handle_submit_btn: Null model");
         }
     }
+
+
 
     // Sending calculated balance qty
     private boolean sendBalQty() {
@@ -2616,6 +2825,20 @@ public class FindinObsFragment extends Fragment implements FindingObjAdapter.Add
 
     private void insert_A() {
 
+     // added 22 feb2020
+       if(sp_done_hours.getSelectedItem().toString().equals("H"))
+       {
+           long id1 = new DbHelper(mContext).insertImagePath(
+                   tv_A.getText().toString(),
+                   DbConstant.Inspection_Entry.VISUALA,
+                   "nil",
+                   DbConstant.Inspection_Entry.VISUALA_FILE,
+                   "NA", INSPECTION_ID, 1
+           );
+       }
+
+// till here
+
         for (int i = 1; i <= mAdapter.getItemCount(); i++) {
             viewHolder = (FindingObjAdapter.MyViewHolder) rv_list.findViewHolderForAdapterPosition(i - 1);
             if ((viewHolder != null ? viewHolder.et_single_obs.getText().length() : 0) > 0) {
@@ -2715,14 +2938,41 @@ public class FindinObsFragment extends Fragment implements FindingObjAdapter.Add
         i(TAG, "Clicked at position: " + position);
         cameraButton = (Button) mvView;
         //cameraButton.setTag(position);
+   // added 18feb2020 by kiran
 
-        startCamera(IMAGE_CAPTURE_REQUEST);
+        final CharSequence[] options = {"Take Photo From Camera", "Choose From Gallery","Cancel"};
+       AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setTitle("Select Option");
+        builder.setItems(options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                if (options[item].equals("Take Photo From Camera")) {
+                    dialog.dismiss();
+                    startCamera(IMAGE_CAPTURE_REQUEST);
+                } else if (options[item].equals("Choose From Gallery")) {
+                    dialog.dismiss();
+                    galleryimage(GALLERY);
+                   // Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                  //  startActivityForResult(galleryIntent, GALLERY);
+                }
+                else if (options[item].equals("Cancel")) {
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.show();
+
+
     }
-
+private void galleryimage(int requestCode)
+{
+    Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+     startActivityForResult(galleryIntent, requestCode);
+}
 
     private void startCamera(int requestCode) {
 
-        final String dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/ICS INSPECTION/";
+        final String dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/ICS INSPECTION/"; // /inspectionfolder /ICS INSPECTION/
         File newdir = new File(dir);
         newdir.mkdirs();
         String file = dir + "Inspection_" + DateFormat.format("yyyy-MM-dd_hhmmss", new Date()).toString() + ".jpg";
@@ -2844,9 +3094,47 @@ public class FindinObsFragment extends Fragment implements FindingObjAdapter.Add
             case IMAGE_CAPTURE_REQUEST:
                 imageButtonClickHandler(resultCode, cameraButton);
                 break;
+                //added 18feb2020 by kiran
+            case GALLERY:
+            {
+
+                if (data != null)
+                {
+                    Uri contentURI = data.getData();
+                    try
+                    {
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(mContext.getContentResolver(), contentURI);
+                        String path = saveImage(bitmap);
+                        i(TAG, "$path");
+                        cameraButton.setTag(path);
+                        try {
+                            cameraButton.setText("Uploaded");
+                        } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                        cameraButton.setBackgroundColor(
+                            ContextCompat.getColor(
+                                    mContext,
+                                    android.R.color.holo_green_light
+                            )
+                    );
+                        //   Toast.makeText(this@MainActivity, "Image Saved!", Toast.LENGTH_SHORT).show()
+                        //  imageview!!.setImageBitmap(bitmap)
+
+                    }
+                    catch (IOException e) {
+                    e.printStackTrace();
+                    //Toast.makeText(this@MainActivity, "Failed!", Toast.LENGTH_SHORT).show()
+                }
+
+                }
+                break;
+            }
 
             case PICK_VISIT_SLIP_REQUEST_CODE:
-                documentResultHandler(resultCode, data, btn_upload_visit_slip);
+
+               documentResultHandler(resultCode, data, btn_upload_visit_slip);
                 break;
 
             case PICK_TC_REQUEST_CODE:
@@ -2911,6 +3199,43 @@ public class FindinObsFragment extends Fragment implements FindingObjAdapter.Add
                 imageButtonClickHandlerListener(resultCode, ibtn_upload_calib_cert);
                 break;
         }
+    }
+//added18feb2020
+    private String saveImage(Bitmap bitmap)
+    {
+        ByteArrayOutputStream bytes =new  ByteArrayOutputStream ();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+       File wallpaperDirectory = new File(
+                (Environment.getExternalStorageDirectory()).toString() + IMAGE_DIRECTORY);
+        // have the object build the directory structure, if needed.
+        Log.d("fee",wallpaperDirectory.toString());
+        if (!wallpaperDirectory.exists())
+        {
+
+            wallpaperDirectory.mkdirs();
+        }
+
+        try
+        {
+            Log.d("heel",wallpaperDirectory.toString());
+            File f = new File(wallpaperDirectory, ((Calendar.getInstance()
+                    .getTimeInMillis())+ ".jpg"));
+            f.createNewFile();
+            FileOutputStream fo = new FileOutputStream(f);
+            fo.write(bytes.toByteArray());
+            MediaScannerConnection.scanFile(mContext,
+                    new String[]{(f.getPath())},
+                    new String[]{("image/jpeg")}, null);
+            fo.close();
+            Log.d("TAG", "File Saved::--->" + f.getAbsolutePath());
+
+            return f.getAbsolutePath();
+        }
+        catch ( IOException e) {
+        e.printStackTrace();
+    }
+
+        return "";
     }
 
     /**
@@ -3018,7 +3343,8 @@ public class FindinObsFragment extends Fragment implements FindingObjAdapter.Add
                             return;
                         }
                     }
-                } catch ( java.lang.Exception e) {
+                }
+                catch ( java.lang.Exception e) {
                     e.printStackTrace();
                 }
                 if (picturePath==null) {
@@ -3631,7 +3957,7 @@ public class FindinObsFragment extends Fragment implements FindingObjAdapter.Add
                 mValues.put(DbConstant.IrIrn_Data_Entry.EXTRA_HOURS,str_extra_hours);
                 mValues.put(DbConstant.IrIrn_Data_Entry.CFRID,str_cfrid);
                 mValues.put(DbConstant.IrIrn_Data_Entry.SERVER_STATUS, "pending");
-
+///////////////////////////////////////////////////////////
 
                 long id = mDatabase.insert(DbConstant.IrIrn_Data_Entry.TABLE_IR_IRN, null, mValues);
                 if (id > 0) {
@@ -3947,7 +4273,8 @@ public class FindinObsFragment extends Fragment implements FindingObjAdapter.Add
             Intent fileIntent = new Intent(Intent.ACTION_GET_CONTENT);
 //                        Uri uri = Uri.parse(Environment.getRootDirectory().getAbsolutePath());
 //                        fileIntent.setData(uri);
-            fileIntent.setType("application/pdf");
+           // fileIntent.setType("application/pdf");  //comment 19feb2020
+            fileIntent.setType("*/*");  // added 19feb
             String[] extraMimeTypes = {"audio/*", "video/*", "application/*", "application/pdf", "application/msword", "application/vnd.ms-powerpoint", "application/vnd.ms-excel", "application/zip", "audio/x-wav|text/plain"};
             fileIntent.putExtra(Intent.EXTRA_MIME_TYPES, extraMimeTypes);
             startActivityForResult(fileIntent, requestCode);

@@ -12,7 +12,7 @@
     <color name="color_hint">#f173aaf2</color>
     <color name="color_orange">#d67601</color>
     <color name="red">#FF0000</color>
-
+    <color name="colorTextBlack">#333333</color>
     <array  name="tab_colors" >
         <item name="tab_1">#f173aaf</item>
         <item name="tab_2">#f173aaf</item>

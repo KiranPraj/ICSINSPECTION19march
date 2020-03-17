@@ -382,7 +382,9 @@ class LoginActivity : AppCompatActivity() {
 
                     override fun onFailure(call: Call<List<ReportDetailsModel>>, t: Throwable) {
                        // mProgressDialog.cancel()
-                        toast_e("fail to go main activity")
+                        toast_e("fail to go main activity,please try after some time")
+                        Common.disableDialog(mDialog)
+                        mDialog.dismiss()
                         t.printStackTrace()
                     }
                 })

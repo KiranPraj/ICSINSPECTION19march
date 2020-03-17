@@ -11,8 +11,8 @@ android {
         applicationId "com.srj.icsinspection"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 18
-        versionName "1.8.4"
+        versionCode 21
+        versionName "1.8.7"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -81,6 +81,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
    /* implementation 'androidx.exifinterface:exifinterface:1.0.0'*/
     implementation 'com.google.android.material:material:1.0.0'
+
     implementation 'androidx.dynamicanimation:dynamicanimation:1.0.0'
     implementation 'androidx.core:core:1.1.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
