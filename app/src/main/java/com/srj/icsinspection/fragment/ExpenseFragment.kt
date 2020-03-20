@@ -74,10 +74,8 @@ class ExpenseFragment:Fragment(), ITopicClickListener, OutStationAdapter.IListne
         }
         else
         {
-            Toast.makeText(context,"Previous Row is Empty,fill it firstly ",Toast.LENGTH_LONG).show()
+            Toast.makeText(context,"Previous Row is Empty,fill it first ",Toast.LENGTH_LONG).show()
         }
-
-
 
 
     }
@@ -96,7 +94,6 @@ class ExpenseFragment:Fragment(), ITopicClickListener, OutStationAdapter.IListne
             {
                 DbHelper(mContext).deleteBoardingOutstationRow(gst_no)
                 outstation_list.remove(model)
-                // adapter_outstation.notifyItemRemoved(outstation_list.size)
                 adapter_outstation_boarding.notifyDataSetChanged()
             }
             else
