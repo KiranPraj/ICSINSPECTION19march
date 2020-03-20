@@ -10,6 +10,7 @@ import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.appcompat.widget.LinearLayoutCompat
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.srj.icsinspection.R
 import com.srj.icsinspection.model.OutStationExpensesModel
@@ -53,6 +54,13 @@ class OutStationAdapter(var type: Int,internal var context: Context, internal va
        }
 
         holder.browse_file_boarding.setText(array.get(position).browse_file_boarding)
+        if(array.get(position).browse_file_boarding=="Attached")
+        {
+            holder.browse_file_boarding.setBackgroundColor(
+                    ContextCompat.getColor(
+                            context, android.R.color.holo_green_light
+                    ))
+        }
 
 
             if(type==1)

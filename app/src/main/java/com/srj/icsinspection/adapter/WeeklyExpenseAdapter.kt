@@ -15,6 +15,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 import android.view.MotionEvent
 import android.widget.*
+import androidx.core.content.ContextCompat
 
 
 class WeeklyExpenseAdapter(internal var context: Context, internal var array: ArrayList<WeeklyExpenseModel>, private val mCallback: ITopicClickListener) :
@@ -95,6 +96,13 @@ class WeeklyExpenseAdapter(internal var context: Context, internal var array: Ar
         holder.inv_amount.setText(array.get(position).getInv_amount())
         holder.client_no.setText(array.get(position).getClient_no())
         holder.browse_file.setText(array.get(position).getBrowse_file())
+        if(array.get(position).browse_file=="Attached")
+        {
+            holder.browse_file.setBackgroundColor(
+                    ContextCompat.getColor(
+                            context, android.R.color.holo_green_light
+                    ))
+        }
         var paidby:String=array.get(position).getPaid_by()
 
         // var paid_by= holder.paid_by.check(holder.paid_by.checkedRadioButtonId).toString()

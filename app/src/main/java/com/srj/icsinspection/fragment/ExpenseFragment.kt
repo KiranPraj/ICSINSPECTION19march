@@ -51,6 +51,7 @@ import com.srj.icsinspection.model.OutStationExpensesModel
 import com.srj.icsinspection.model.WeeklyExpenseModel
 import com.srj.icsinspection.utils.Common
 import com.srj.icsinspection.utils.FileManager
+import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.fragment_expense.*
 import kotlinx.android.synthetic.main.fragment_expense.view.*
 
@@ -63,18 +64,20 @@ import kotlin.collections.ArrayList
 
 
 
-
-
-
-
-
-
-
 class ExpenseFragment:Fragment(), ITopicClickListener, OutStationAdapter.IListnerCallback {
-    override fun addrowcallback(text: TextView, date1: String, particularExpenses1: String, totalAmount1: String, igst1: String, cgst1: String, sgst1: String, gstNo1: String, serviceProvider1: String, invAmount1: String, clientNo1: String, browseFile1: String, paid1: String) {
-        DbHelper(mContext).insertinExpenseTable(particularExpenses1,totalAmount1,igst1,cgst1,sgst1,gstNo1,serviceProvider1,invAmount1,clientNo1,browseFile1,paid1,date1)
+    override fun addrowcallback(text: TextView, date1: String, particularExpenses1: String, totalAmount1: String, igst1: String, cgst1: String, sgst1: String, gstNo1: String, serviceProvider1: String, invAmount1: String, clientNo1: String, browseFile1: String, paid1: String)
+    {
+        if(date1!="")
+        {
+            DbHelper(mContext).insertinExpenseTable(particularExpenses1,totalAmount1,igst1,cgst1,sgst1,gstNo1,serviceProvider1,invAmount1,clientNo1,browseFile1,paid1,date1)
+            adddefaultrowforweeklyexpenses()
+        }
+        else
+        {
+            Toast.makeText(context,"Previous Row is Empty,fill it firstly ",Toast.LENGTH_LONG).show()
+        }
 
-       adddefaultrowforweeklyexpenses()
+
 
 
     }
@@ -162,18 +165,31 @@ class ExpenseFragment:Fragment(), ITopicClickListener, OutStationAdapter.IListne
     {
          if (type ==1)
          {
-             //addrowlocaloutstation()
-             DbHelper(mContext).insertInBoardingOutstationTable(location,expenses,igst,cgst,sgst,gstno,serviceprovider,paidby,invoice,narration,chosefile)
+             if (location!="")
+             {
+                 //addrowlocaloutstation()
+                 DbHelper(mContext).insertInBoardingOutstationTable(location,expenses,igst,cgst,sgst,gstno,serviceprovider,paidby,invoice,narration,chosefile)
+                 adddefaultrowForoutStationBoarding()
+             }
+             else
+             {
+                 Toast.makeText(context,"Fill Previous Row First...",Toast.LENGTH_LONG).show()
+             }
 
-             adddefaultrowForoutStationBoarding()
 
          }
          else
          {
-             DbHelper(mContext).insertInLocalOutstationTable(fromdate,todate,expenses,igst,cgst,sgst,gstno,serviceprovider,paidby,invoice,narration,chosefile)
-             adddefaultrowforOutstationLocal()
+             if (fromdate!=""&& todate!="")
+             {
+                 DbHelper(mContext).insertInLocalOutstationTable(fromdate,todate,expenses,igst,cgst,sgst,gstno,serviceprovider,paidby,invoice,narration,chosefile)
+                 adddefaultrowforOutstationLocal()
+             }
+             else
+             {
+                 Toast.makeText(context,"Fill Previous Row First...",Toast.LENGTH_LONG).show()
+             }
 
-             // addOutstationRow()
          }
 
     }
@@ -412,8 +428,6 @@ class ExpenseFragment:Fragment(), ITopicClickListener, OutStationAdapter.IListne
                     "application/vnd.ms-excel",
                     "application/zip",
                     "audio/x-wav|text/plain",
-
-
                     "application/msword",
                     "application/msword",
                     "application/vnd.openxmlformats-officedocument.wordprocessingml.document",

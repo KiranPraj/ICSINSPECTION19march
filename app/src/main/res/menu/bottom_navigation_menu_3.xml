@@ -3,8 +3,8 @@
 
     <item
         android:id="@+id/tab_1"
-        android:title="@string/create"
-        android:icon="@drawable/ic_create" />
+        android:icon="@drawable/ic_create"
+        android:title="@string/create" />
 
     <item
         android:id="@+id/tab_2"
